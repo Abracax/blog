@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-14T17:14:19.731Z</updated>
+  <updated>2021-04-14T17:52:58.321Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://example.com/2021/04/15/JumpTable/"/>
     <id>http://example.com/2021/04/15/JumpTable/</id>
     <published>2021-04-14T17:13:28.000Z</published>
-    <updated>2021-04-14T17:14:19.731Z</updated>
+    <updated>2021-04-14T17:52:58.321Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h2><p><a href="http://lwn.net/Articles/250967/">http://lwn.net/Articles/250967/</a></p>]]></content>
+    <content type="html"><![CDATA[<h2 id="Memory"><a href="#Memory" class="headerlink" title="Memory"></a>Memory</h2><p><a href="http://lwn.net/Articles/250967/">http://lwn.net/Articles/250967/</a></p><p><a href="https://searchstorage.techtarget.com/definition/NVRAM-non-volatile-random-access-memory">https://searchstorage.techtarget.com/definition/NVRAM-non-volatile-random-access-memory</a></p>]]></content>
     
     
       
@@ -41,9 +41,9 @@
     <link href="http://example.com/2021/04/14/WAFL/"/>
     <id>http://example.com/2021/04/14/WAFL/</id>
     <published>2021-04-14T14:02:07.000Z</published>
-    <updated>2021-04-14T14:19:18.553Z</updated>
+    <updated>2021-04-14T18:01:52.365Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="Shadow-Paging"><a href="#Shadow-Paging" class="headerlink" title="Shadow Paging"></a>Shadow Paging</h2><p>Shadow paging is a copy-on-write technique for avoiding in-place updates of pages. Instead, when a page is to be modified, a shadow page is allocated. Since the shadow page has no references (from other pages on disk), it can be modified liberally, without concern for consistency constraints, etc. When the page is ready to become durable, all pages that referred to the original are updated to refer to the new replacement page instead. Because the page is “activated” only when it is ready, it is atomic.</p><p>WAFL uses write-behind caching.</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="Shadow-Paging"><a href="#Shadow-Paging" class="headerlink" title="Shadow Paging"></a>Shadow Paging</h2><p>Shadow paging is a copy-on-write technique for avoiding in-place updates of pages. Instead, when a page is to be modified, a shadow page is allocated. When the page is ready to become durable, all pages that referred to the original are updated to refer to the new replacement page instead. Because the page is “activated” only when it is ready, it is atomic.</p><h2 id="Read-Through-Write-Through-Write-Behind-Caching-and-Refresh-Ahead"><a href="#Read-Through-Write-Through-Write-Behind-Caching-and-Refresh-Ahead" class="headerlink" title="Read-Through, Write-Through, Write-Behind Caching and Refresh-Ahead"></a>Read-Through, Write-Through, Write-Behind Caching and Refresh-Ahead</h2><p>WAFL uses write-behind caching, NVRAM as a cache of unwritten disk blocks.  This means <strong>cache</strong> layer itself connects to the backing database. This means that your applications need only ever connect to your <strong>cache</strong> layer.</p><p><a href="https://docs.oracle.com/cd/E13924_01/coh.340/e13819/readthrough.htm">https://docs.oracle.com/cd/E13924_01/coh.340/e13819/readthrough.htm</a></p><p>WAFL gathers up many hundreds of NFS requests before scheduling a write episode. During a write episode, WAFL allocates disk space for all the dirty data in the cache and schedules the required disk I/O. </p><h2 id="Same-as-EXT2-except-Snapshots"><a href="#Same-as-EXT2-except-Snapshots" class="headerlink" title="Same as EXT2 except Snapshots"></a>Same as EXT2 except Snapshots</h2><p>Metadata:</p><ul><li>inode file</li><li>block-map file (free blocks)</li><li> inode-map (free inodes)</li></ul><p>Keeping meta-data in files makes it easy to increase the size of the file system on the fly. </p><p>4 KB blocks. Each WAFL inode contains 16 block pointers to indicate which blocks belong to the file. Inodes for larger files point to doubly indirect blocks. For very small files, data is stored in the inode itself in place of the block pointers.</p><p>The write-anywhere design good for distributing writes evenly across RAID.</p><h2 id="Snapshots"><a href="#Snapshots" class="headerlink" title="Snapshots"></a>Snapshots</h2><p>WAFL simply duplicates the root inode. Makes snapshot at consistency point every 10 seconds.</p><p>WAFL uses non-volatile RAM (NVRAM) to keep a log of NFS requests it has processed since the last consistency point. After an unclean shutdown, WAFL replays any requests in the log to prevent them from being lost. </p><ul><li>WAFL can write any file system block (except the one containing the root inode) to any location on disk. </li><li>WAFL can write blocks to disk in any order.</li><li>WAFL can allocate disk space for many NFS operations at once in a single write episode.</li></ul><p>WAFL’s technique for keeping Snapshot data self consistent is to mark all the dirty data in the cache as “IN_SNAPSHOT.” The rule during Snapshot creation is that data marked IN_SNAPSHOT must not be modified, and data not marked IN_SNAPSHOT must not be flushed to disk. WAFL must flush IN_SNAPSHOT data as quickly as possible. </p><ul><li>Allocate disk space for all files with IN_SNAPSHOT blocks. WAFL caches inode data in two places: in a special cache of in-core inodes, and in disk buffers belonging to the inode file.  WAFL copies the newly updated inode information from the inode cache into the appropriate inode file disk buffer, and clears the IN_SNAPSHOT bit on the in-core inode. <strong>No disk access.</strong> <strong>Quick.</strong></li><li>Update the block-map file. </li><li>Flush IN_SNAPSHOT disk buffers to disk, can start NFS requests.</li><li>Duplicate the root inode, turn the root inode’s IN_SNAPSHOT bit off.  Reach the disk last.</li></ul>]]></content>
     
     
       
