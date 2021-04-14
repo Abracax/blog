@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-14T11:16:01.720Z</updated>
+  <updated>2021-04-14T11:39:57.569Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://example.com/2021/04/14/ARIES/"/>
     <id>http://example.com/2021/04/14/ARIES/</id>
     <published>2021-04-14T11:13:20.000Z</published>
-    <updated>2021-04-14T11:16:01.720Z</updated>
+    <updated>2021-04-14T11:39:57.569Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="Stealing-and-Forcing"><a href="#Stealing-and-Forcing" class="headerlink" title="Stealing and Forcing"></a>Stealing and Forcing</h2><p>Stealing happens when buffer pool is full, pages modified by uncommitted transactions can get kicked into stable storage.</p><p>Forcing means that every time a transaction commits, all the affected pages will be pushed to stable storage.</p><ul><li>STEAL or NO-STEAL – Can an update made by an uncommitted transaction overwrite the most recent committed value of a data item on disk?</li><li>FORCE or NO-FORCE – Should all updates of a transaction be forced to disk before the transaction commits? </li><li>Easiest for recovery: NO-STEAL/FORCE</li><li>Highest performance: STEAL/NO-FORCE</li><li>Undo logging: Steal/Force<ul><li>uncommmited writes?</li></ul></li><li>Redo logging: No-Steal/No-Force<ul><li>commited stuff not written?</li></ul></li></ul><h2 id="Recovery"><a href="#Recovery" class="headerlink" title="Recovery"></a>Recovery</h2><p>The recovery works in three phases.</p><ul><li>The first phase, <strong>Analysis</strong>, computes all the necessary information from the logfile. </li><li><strong>Redo</strong> some transaction that did commit .The <strong>Redo</strong> phase restores the database to the exact state at the crash, including all the changes of uncommitted transactions that were running at that point in time.</li><li><strong>Undo</strong> other transactions that didn’t commit. The <strong>Undo</strong> phase then undoes all uncommitted changes, leaving the database in a consistent state.</li></ul>]]></content>
+    <content type="html"><![CDATA[<h2 id="Stealing-and-Forcing"><a href="#Stealing-and-Forcing" class="headerlink" title="Stealing and Forcing"></a>Stealing and Forcing</h2><p>Stealing happens when buffer pool is full, pages modified by uncommitted transactions can get kicked into stable storage.</p><p>Forcing means that every time a transaction commits, all the affected pages will be pushed to stable storage.</p><p>STEAL or NO-STEAL – Can an update made by an uncommitted transaction overwrite the most recent committed value of a data item on disk?</p><p>FORCE or NO-FORCE – Should all updates of a transaction be forced to disk before the transaction commits?</p><ul><li>Easiest for recovery: NO-STEAL/FORCE</li><li>Highest performance: STEAL/NO-FORCE</li><li>Undo logging: Steal/Force<pre><code>- uncommmited writes?</code></pre></li><li>Redo logging: No-Steal/No-Force<pre><code>- commited stuff not written?</code></pre></li></ul><h2 id="Recovery"><a href="#Recovery" class="headerlink" title="Recovery"></a>Recovery</h2><p>The recovery works in three phases.</p><ul><li>The first phase, <strong>Analysis</strong>, computes all the necessary information from the logfile. </li><li><strong>Redo</strong> some transaction that did commit .The <strong>Redo</strong> phase restores the database to the exact state at the crash, including all the changes of uncommitted transactions that were running at that point in time.</li><li><strong>Undo</strong> other transactions that didn’t commit. The <strong>Undo</strong> phase then undoes all uncommitted changes, leaving the database in a consistent state.</li></ul>]]></content>
     
     
       
