@@ -164,9 +164,9 @@
     flex: 0 0 var(--date-block-width);
     padding-top: calc(var(--row-blocks-padding-top) + 2.5pt) !important;
     padding-right: var(--decorator-horizontal-margin);
-    font-size: 12pt;
+    font-size: 10pt;
     text-align: right;
-    line-height: 1;
+    line-height: 0.9;
   }
   
   .date span{
@@ -279,7 +279,6 @@
     font-weight: normal;
     font-style: normal;
     text-decoration: inherit;
-    content: "\f041";
   }
   
   /***** fine-tunes on the lists... *****/
