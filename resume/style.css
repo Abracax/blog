@@ -82,7 +82,7 @@
   
   #title h1{
     font-weight: 300;
-    font-size: 40pt;
+    font-size: 30pt;
     line-height: 1.5;
   }
   
@@ -117,11 +117,12 @@
        line too */
     position: absolute;
     left: var(--main-blocks-title-icon-offset-left);
-    z-index: 1; /* over decorator line */
+    z-index: 1;
     color: #444;
   }
   
-  #main h2::after{ /* extends the decorator line */
+  /*should be h2*/
+  #main h5::after{ /* extends the decorator line */
     height: calc(var(--row-blocks-padding-top) * 2);
     position: relative;
     top: calc(-1 * var(--row-blocks-padding-top));
@@ -320,7 +321,7 @@
   
   #sidebar h1{
     font-weight: 400;
-    font-size: 12pt;
+    font-size: 10pt;
   }
   
   .side-block{
@@ -349,20 +350,3 @@
     padding: 0;
   }
   
-  #disclaimer{
-    position: absolute;
-    bottom: var(--sidebar-horizontal-padding);
-    right: var(--sidebar-horizontal-padding);
-    font-size: 7.5pt;
-    font-style: italic;
-    line-height: 1.1;
-    text-align: right;
-    color: #777;
-  }
-  
-  #disclaimer code{
-    color: #666;
-    font-family: "Source Code Pro";
-    font-weight: 400;
-    font-style: normal;
-  }

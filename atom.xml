@@ -121,9 +121,9 @@
     <link href="http://example.com/2020/04/15/JobSearch/"/>
     <id>http://example.com/2020/04/15/JobSearch/</id>
     <published>2020-04-14T17:09:49.000Z</published>
-    <updated>2021-04-14T17:11:11.991Z</updated>
+    <updated>2021-04-15T16:02:26.778Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="China-market"><a href="#China-market" class="headerlink" title="China market"></a>China market</h2><p><a href="https://gitee.com/ChiZhung/CS-Notes">https://gitee.com/ChiZhung/CS-Notes</a></p>]]></content>
+    <content type="html"><![CDATA[<h2 id="China-market"><a href="#China-market" class="headerlink" title="China market"></a>China market</h2><p><a href="https://gitee.com/ChiZhung/CS-Notes">https://gitee.com/ChiZhung/CS-Notes</a></p><div class="row">    <embed src="../../../../test/test.pdf" width="100%" height="550" type="application/pdf"></div>]]></content>
     
     
       
