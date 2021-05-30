@@ -474,7 +474,14 @@ pre {
 .tags li {
   list-style: none;
   display: inline-block;
-  margin: 5px; }
+  margin-left: 30px; }
+
+li {
+    list-style: none;
+    display: inline-block;
+    margin-left: 30px;
+}
+  
 
 .tags li a {
   color: inherit;
