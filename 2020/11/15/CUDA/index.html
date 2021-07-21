@@ -1,5 +1,79 @@
-<!DOCTYPE html><html lang="en"><head><title>Abracax</title><link rel="alternate" href="/atom.xml" type="application/atom.xml"><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"><link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet"><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script><meta charset="UTF-8"><link rel="icon" href="/blog/images/favicon.png"><link rel="stylesheet" href="/blog/css/style.css"><link rel="alternate" href="/blog/atom.xml" title="Abracax's Notes" type="application/atom+xml">
-</head><body><div class="site-header"><div class="container"><div class="site-branding"><h1 class="site-title">Abracax's Notes<a href="google.com"></a></h1><div class="site-description"><span class="site-description-text"></span></div></div></div></div><div class="menu_box"><div class="menucon"><nav class="navbar navbar-expand-lg navbar-light bg-light"><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="navbarSupportedContent"><div class="menucon"><ul class="navbar-nav mr-auto"><li class="nav-item active"><a class="nav-link" href="https://anxue.xyz/">About Me</a></li></ul></div><div class="menucon"><ul class="navbar-nav mr-auto"><li class="nav-item active"><a class="nav-link" target="_blank" rel="noopener" href="https://github.com/abracax">GitHub</a></li></ul></div></div></nav></div></div></body><div class="container"><div class="row"><div class="single-post"><article class="post-block"><h1 class="post-title">CUDA ECE 408</h1><header class="headgallery"></header><div class="row"><div class="tag-box"><div class="tags"></div></div></div><div class="post-content"><h2 id="Sparse-Matrix-Vector-Multiplication"><a href="#Sparse-Matrix-Vector-Multiplication" class="headerlink" title="Sparse Matrix-Vector Multiplication"></a>Sparse Matrix-Vector Multiplication</h2><p><strong>M rows, N columns, K non-zeros, L non-zero elements in the row with the largest number of non-zeros.</strong></p>
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  <meta name="referrer" content="unsafe-url">
+  
+  <title>CUDA ECE 408</title>
+  <meta name="author" content="Abracat">
+  <meta name="description" content="Sparse Matrix-Vector MultiplicationM rows, N columns, K non-zeros, L non-zero elements in the row with the largest number of non-zeros.
+COO: 3K
+CSR: 2">
+  
+  
+  <meta property="og:title" content="CUDA ECE 408"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="Abracax&#39;s Notes"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/blog/atom.xml" title="Abracax&#39;s Notes" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/blog/favicon.ico">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="main-ctnr">
+      <div class="behind">
+  <a href="/blog/" class="back black-color">
+    <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+        <path d="M2 30 L30 2 M30 30 L2 2"></path>
+    </svg>
+  </a>
+  
+</div>
+
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        CUDA ECE 408
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      <time datetime="2020-11-14T16:53:19.000Z" itemprop="datePublished">
+  <svg class="i-calendar" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2020-11-15
+</time>
+
+
+
+
+
+
+    </div>
+    <hr>
+    
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sparse-Matrix-Vector-Multiplication"><span class="toc-text">Sparse Matrix-Vector Multiplication</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kogge-Stone-scan-kernel"><span class="toc-text">Kogge-Stone scan kernel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Control-Divergence"><span class="toc-text">Control Divergence</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Brent-Kung-Scan-kernel"><span class="toc-text">Brent-Kung Scan kernel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Privatisation-and-Histogramming"><span class="toc-text">Privatisation and Histogramming</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Theoretical-minimum-runtime-of-the-original-histogram-kernel"><span class="toc-text">Theoretical minimum runtime of the original histogram kernel</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CNN"><span class="toc-text">CNN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Convolution-calculation"><span class="toc-text">Convolution calculation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unroll"><span class="toc-text">Unroll</span></a></li></ol>
+    
+    <div class="picture-container">
+      
+    </div>
+    <h2 id="Sparse-Matrix-Vector-Multiplication"><a href="#Sparse-Matrix-Vector-Multiplication" class="headerlink" title="Sparse Matrix-Vector Multiplication"></a>Sparse Matrix-Vector Multiplication</h2><p><strong>M rows, N columns, K non-zeros, L non-zero elements in the row with the largest number of non-zeros.</strong></p>
 <p>COO: 3K</p>
 <p>CSR: 2K + M + 1</p>
 <p>ELL: 2M*L</p>
@@ -34,4 +108,66 @@
 <p>– Each output tile has TILE_WIDTH^2 elements<br> – Each input tile has (TILE_WIDTH+K-1)^2<br> – The total number of input feature map element accesses was TILE_WIDTH^2 * K^2<br> – The reduction factor of the tiled algorithm is K^2 * TILE_WIDTH^2 / (TILE_WIDTH+K-1)^2</p>
 <h2 id="Unroll"><a href="#Unroll" class="headerlink" title="Unroll"></a>Unroll</h2><p><img src="/2020/11/15/CUDA/image-20201209094952824.png" alt="image-20201209094952824"></p>
 <p><img src="/2020/11/15/CUDA/image-20201209095014432.png" alt="image-20201209095014432"></p>
-</div></article><div class="paginator"><a class="prev" href="/blog/2021/04/14/ARIES/">prev</a><a class="next" href="/blog/2020/07/06/EPOLL/">next</a></div></div></div></div><div class="container-fluid"><div class="row"><div class="footer_box"><a class="col-lg-2 col-xl-2 col-md-2" href="/resume">Contact</a></div></div></div></html>
+
+
+  </article>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+    
+
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+<div class="right-foot">
+    <div class="firstrow">
+        <a href="#top" target="_self">
+        <svg class="i-caret-right" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M10 30 L26 16 10 2 Z"></path>
+        </svg>
+        </a>
+        
+    </div>
+    <div class="secondrow">
+        <a target="_blank" rel="noopener" href="https://github.com/Abracax">
+        Abracax
+        </a>
+    </div>
+</div>
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/blog/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/blog/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>
