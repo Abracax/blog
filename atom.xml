@@ -3,11 +3,11 @@
   <title>Abracax&#39;s Notes</title>
   
   
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="https://anxue.xyz/blog/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="https://anxue.xyz/blog/"/>
   <updated>2021-05-27T14:42:05.461Z</updated>
-  <id>http://example.com/</id>
+  <id>https://anxue.xyz/blog/</id>
   
   <author>
     <name>Abracat</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Modern-Philosophy</title>
-    <link href="http://example.com/2021/05/27/Modern-Philosophy/"/>
-    <id>http://example.com/2021/05/27/Modern-Philosophy/</id>
+    <link href="https://anxue.xyz/blog/2021/05/27/Modern-Philosophy/"/>
+    <id>https://anxue.xyz/blog/2021/05/27/Modern-Philosophy/</id>
     <published>2021-05-27T14:13:28.000Z</published>
     <updated>2021-05-27T14:42:05.461Z</updated>
     
@@ -38,8 +38,8 @@
   
   <entry>
     <title>TiFS: PingCAP Hackathon With XiXi, 龙姐姐, GG</title>
-    <link href="http://example.com/2021/05/24/TiFS-PingCAP-Hackathon/"/>
-    <id>http://example.com/2021/05/24/TiFS-PingCAP-Hackathon/</id>
+    <link href="https://anxue.xyz/blog/2021/05/24/TiFS-PingCAP-Hackathon/"/>
+    <id>https://anxue.xyz/blog/2021/05/24/TiFS-PingCAP-Hackathon/</id>
     <published>2021-05-23T16:42:31.000Z</published>
     <updated>2021-05-30T17:08:37.405Z</updated>
     
@@ -59,8 +59,8 @@
   
   <entry>
     <title>My OS My Choice</title>
-    <link href="http://example.com/2021/05/20/My-OS-my-choice/"/>
-    <id>http://example.com/2021/05/20/My-OS-my-choice/</id>
+    <link href="https://anxue.xyz/blog/2021/05/20/My-OS-my-choice/"/>
+    <id>https://anxue.xyz/blog/2021/05/20/My-OS-my-choice/</id>
     <published>2021-05-19T16:58:55.000Z</published>
     <updated>2021-05-30T17:07:34.905Z</updated>
     
@@ -79,8 +79,8 @@
   
   <entry>
     <title>Jump Table to Superb Blog Posts</title>
-    <link href="http://example.com/2021/04/15/JumpTable/"/>
-    <id>http://example.com/2021/04/15/JumpTable/</id>
+    <link href="https://anxue.xyz/blog/2021/04/15/JumpTable/"/>
+    <id>https://anxue.xyz/blog/2021/04/15/JumpTable/</id>
     <published>2021-04-14T17:13:28.000Z</published>
     <updated>2021-04-14T17:52:58.321Z</updated>
     
@@ -99,8 +99,8 @@
   
   <entry>
     <title>WAFL &amp; Shadow Paging</title>
-    <link href="http://example.com/2021/04/14/WAFL/"/>
-    <id>http://example.com/2021/04/14/WAFL/</id>
+    <link href="https://anxue.xyz/blog/2021/04/14/WAFL/"/>
+    <id>https://anxue.xyz/blog/2021/04/14/WAFL/</id>
     <published>2021-04-14T14:02:07.000Z</published>
     <updated>2021-04-14T18:01:52.365Z</updated>
     
@@ -119,8 +119,8 @@
   
   <entry>
     <title>ARIES</title>
-    <link href="http://example.com/2021/04/14/ARIES/"/>
-    <id>http://example.com/2021/04/14/ARIES/</id>
+    <link href="https://anxue.xyz/blog/2021/04/14/ARIES/"/>
+    <id>https://anxue.xyz/blog/2021/04/14/ARIES/</id>
     <published>2021-04-14T11:13:20.000Z</published>
     <updated>2021-04-14T20:25:37.214Z</updated>
     
@@ -139,8 +139,8 @@
   
   <entry>
     <title>CUDA ECE 408</title>
-    <link href="http://example.com/2020/11/15/CUDA/"/>
-    <id>http://example.com/2020/11/15/CUDA/</id>
+    <link href="https://anxue.xyz/blog/2020/11/15/CUDA/"/>
+    <id>https://anxue.xyz/blog/2020/11/15/CUDA/</id>
     <published>2020-11-14T16:53:19.000Z</published>
     <updated>2021-04-14T17:03:01.136Z</updated>
     
@@ -159,8 +159,8 @@
   
   <entry>
     <title>EPOLL</title>
-    <link href="http://example.com/2020/07/06/EPOLL/"/>
-    <id>http://example.com/2020/07/06/EPOLL/</id>
+    <link href="https://anxue.xyz/blog/2020/07/06/EPOLL/"/>
+    <id>https://anxue.xyz/blog/2020/07/06/EPOLL/</id>
     <published>2020-07-06T11:13:27.000Z</published>
     <updated>2021-04-14T11:14:34.917Z</updated>
     
@@ -179,8 +179,8 @@
   
   <entry>
     <title>Job Search China</title>
-    <link href="http://example.com/2020/04/15/JobSearch/"/>
-    <id>http://example.com/2020/04/15/JobSearch/</id>
+    <link href="https://anxue.xyz/blog/2020/04/15/JobSearch/"/>
+    <id>https://anxue.xyz/blog/2020/04/15/JobSearch/</id>
     <published>2020-04-14T17:09:49.000Z</published>
     <updated>2021-04-15T16:02:26.778Z</updated>
     

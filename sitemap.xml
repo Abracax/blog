@@ -2,63 +2,63 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.com/2021/05/24/TiFS-PingCAP-Hackathon/</loc>
+    <loc>https://anxue.xyz/blog/2021/05/24/TiFS-PingCAP-Hackathon/</loc>
     
     <lastmod>2021-05-30</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2021/05/20/My-OS-my-choice/</loc>
+    <loc>https://anxue.xyz/blog/2021/05/20/My-OS-my-choice/</loc>
     
     <lastmod>2021-05-30</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2021/05/27/Modern-Philosophy/</loc>
+    <loc>https://anxue.xyz/blog/2021/05/27/Modern-Philosophy/</loc>
     
     <lastmod>2021-05-27</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2020/04/15/JobSearch/</loc>
+    <loc>https://anxue.xyz/blog/2020/04/15/JobSearch/</loc>
     
     <lastmod>2021-04-15</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2021/04/14/ARIES/</loc>
+    <loc>https://anxue.xyz/blog/2021/04/14/ARIES/</loc>
     
     <lastmod>2021-04-14</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2021/04/14/WAFL/</loc>
+    <loc>https://anxue.xyz/blog/2021/04/14/WAFL/</loc>
     
     <lastmod>2021-04-14</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2021/04/15/JumpTable/</loc>
+    <loc>https://anxue.xyz/blog/2021/04/15/JumpTable/</loc>
     
     <lastmod>2021-04-14</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2020/11/15/CUDA/</loc>
+    <loc>https://anxue.xyz/blog/2020/11/15/CUDA/</loc>
     
     <lastmod>2021-04-14</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2020/07/06/EPOLL/</loc>
+    <loc>https://anxue.xyz/blog/2020/07/06/EPOLL/</loc>
     
     <lastmod>2021-04-14</lastmod>
     
@@ -66,7 +66,7 @@
   
 
   <url>
-    <loc>http://example.com/</loc>
+    <loc>https://anxue.xyz/blog</loc>
     <lastmod>2021-07-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
