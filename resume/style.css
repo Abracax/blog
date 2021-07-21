@@ -8,9 +8,9 @@
   }
   
   :root{
-    --page-width: 10in;
+    --page-width: 9in;
     --page-height: 11in;
-    --main-width: 8.4in;
+    --main-width: 7in;
     --sidebar-width: calc(var(--page-width) - var(--main-width));
     --decorator-horizontal-margin: 0.2in;
   
@@ -67,11 +67,6 @@
   }
   
   /* main */
-  
-  /** big title **/
-  #title, h1, h2{
-    text-transform: uppercase;
-  }
   
   #title{
     position: relative;
@@ -326,7 +321,7 @@
   }
   
   .side-block{
-    margin-top: 0.5in; 
+    margin-top: 0.8in; 
   }
   
   #contact ul{
