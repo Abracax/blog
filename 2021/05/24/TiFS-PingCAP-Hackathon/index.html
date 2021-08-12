@@ -8,13 +8,13 @@
   <meta name="google-site-verification" content="" />
   <meta name="referrer" content="unsafe-url">
   
-  <title>TiFS: PingCAP Hackathon With XiXi, 龙姐姐, GG</title>
+  <title>TiFS: PingCAP Hackathon</title>
   <meta name="author" content="Abracat">
   <meta name="description" content="https://github.com/Hexilee/tifs
 TiFS, a TiKV-Based Partition Tolerant, Strictly Consistent File SystemAuthor: Hexi Lee (Software Engineer Intern at Pi">
   
   
-  <meta property="og:title" content="TiFS: PingCAP Hackathon With XiXi, 龙姐姐, GG"/>
+  <meta property="og:title" content="TiFS: PingCAP Hackathon"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:site_name" content="Abracax&#39;s Notes"/>
   <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
@@ -44,7 +44,7 @@ TiFS, a TiKV-Based Partition Tolerant, Strictly Consistent File SystemAuthor: He
       
   
     <h1 class="page-title center">
-        TiFS: PingCAP Hackathon With XiXi, 龙姐姐, GG
+        TiFS: PingCAP Hackathon
     </h1>
   
 
@@ -126,7 +126,7 @@ TiFS, a TiKV-Based Partition Tolerant, Strictly Consistent File SystemAuthor: He
 <h4 id="Various-scenarios"><a href="#Various-scenarios" class="headerlink" title="Various scenarios"></a>Various scenarios</h4><p>TiFS is most efficient for reading and writing small files or other complicated file system operations. Although TiFS can handle large files, compared to other large file storage solutions it is not as powerful or efficient.</p>
 <p>Here are a few uses of TiFS that you may find interesting:</p>
 <p>A Git remote repository can directly use TiFS to store the project and run Git tasks, such as rebase or cherry-pick, without transferring the files to the local file system.<br>When multiple nodes of an application read or write the same file in TiFS, you can use flock to resolve any conflicts.<br>There’s no complicated SDK or API for space management. You simply call the file system API or run a shell script.<br>TiFS lets you take a standalone application that supports multi-instance collaboration and turn it into a distributed application. For example, SQLite + TiFS = yet another distributed relational database. Admittedly, to use TiFS this way, the application cannot rely on page cache or other caching mechanisms to avoid writes being invisible.</p>
-<p><img src="/2021/05/24/TiFS-PingCAP-Hackathon/tifs-makes-sqlite-another-distributed-relational-database.gif"></p>
+<p><img src="/blog/2021/05/24/TiFS-PingCAP-Hackathon/tifs-makes-sqlite-another-distributed-relational-database.gif"></p>
 <h3 id="Tests-and-benchmarks"><a href="#Tests-and-benchmarks" class="headerlink" title="Tests and benchmarks"></a>Tests and benchmarks</h3><p>During the Hackathon, we used pjdfstest to test TiFS’s correctness. But because pjdfstest doesn’t cover read/write correctness or concurrency correctness, we will need to add other tests.</p>
 <p>Theoretically, there are three major factors that influence the read/write performance of TiFS: the size of file system blocks, the network latency, and the size of load blocks. Here we’ll show the benchmarking results of the read/write IOPS and speed.</p>
 <h4 id="IOPS"><a href="#IOPS" class="headerlink" title="IOPS"></a>IOPS</h4><p>Note: TiKV is a sophisticated system, in which there are logical duration, disk I/O duration, and network duration. In this article, we simplify TiKV to a single replica for demonstration purposes.</p>
