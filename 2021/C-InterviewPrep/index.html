@@ -1,0 +1,476 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  <meta name="referrer" content="unsafe-url">
+  
+  <title>C++ Interview Prep</title>
+  <meta name="author" content="Abracat">
+  <meta name="description" content="char * const  &amp;amp; const char *The difference is that const char * is a pointer to a const char, while char * const is a constant pointer to a char.
+">
+  
+  
+  <meta property="og:title" content="C++ Interview Prep"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="Abracax&#39;s Notes"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/blog/atom.xml" title="Abracax&#39;s Notes" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/blog/favicon.ico">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="main-ctnr">
+      <div class="behind">
+  <a href="/blog/" class="back black-color">
+    <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+        <path d="M2 30 L30 2 M30 30 L2 2"></path>
+    </svg>
+  </a>
+  
+</div>
+
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        C++ Interview Prep
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      <time datetime="2021-08-12T12:05:05.000Z" itemprop="datePublished">
+  <svg class="i-calendar" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2021-08-12
+</time>
+
+
+
+
+
+
+    </div>
+    <hr>
+    
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#char-const-amp-const-char"><span class="toc-text">char * const  &amp; const char *</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shared-Pointer-amp-Cyclic-Reference"><span class="toc-text">Shared Pointer &amp; Cyclic Reference</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#unique-ptr%E3%80%81shared-ptr-and-weak-ptr"><span class="toc-text">unique_ptr、shared_ptr and weak_ptr.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Reference-Count"><span class="toc-text">Reference Count</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Why-auto-ptr-is-banned"><span class="toc-text">Why auto_ptr is banned</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Constructors-the-big-4"><span class="toc-text">Constructors, the big 4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Initializor-List"><span class="toc-text">Initializor List</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Virtual"><span class="toc-text">Virtual</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Virtual-function-table"><span class="toc-text">Virtual function table</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Polymorphism-in-C"><span class="toc-text">Polymorphism in C++</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Const-in-C"><span class="toc-text">Const in C++</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Const-member-functions"><span class="toc-text">Const member functions</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Const-Classes"><span class="toc-text">Const Classes</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Const-variables"><span class="toc-text">Const variables</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Static-in-C"><span class="toc-text">Static in C++</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Static-variables-in-a-Function"><span class="toc-text">Static variables in a Function:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Static-variables-in-a-class"><span class="toc-text">Static variables in a class</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Class-objects-as-static"><span class="toc-text">Class objects as static</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Static-functions-in-a-class"><span class="toc-text">Static functions in a class</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RTTI-Run-Time-Type-Information"><span class="toc-text">RTTI (Run-Time Type Information)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pure-virtual-functions-and-virtual-functions"><span class="toc-text">Pure virtual functions and virtual functions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Protected"><span class="toc-text">Protected</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Concurrency"><span class="toc-text">Concurrency</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-of-Blocking-Queue"><span class="toc-text">Example of Blocking Queue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Singleton"><span class="toc-text">Singleton</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#STL-sort"><span class="toc-text">STL sort</span></a></li></ol>
+    
+    <div class="picture-container">
+      
+    </div>
+    <h2 id="char-const-amp-const-char"><a href="#char-const-amp-const-char" class="headerlink" title="char * const  &amp; const char *"></a>char * const  &amp; const char *</h2><p>The difference is that <code>const char *</code> is a pointer to a <code>const char</code>, while <code>char * const</code> is a constant pointer to a <code>char</code>.</p>
+<p><code>const char *</code> and <code>char const *</code> are equivalent.</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span>       <span class="token operator">*</span>      mutable_pointer_to_mutable_int<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token keyword">const</span> <span class="token operator">*</span>      mutable_pointer_to_constant_int<span class="token punctuation">;</span>
+<span class="token keyword">int</span>       <span class="token operator">*</span><span class="token keyword">const</span> constant_pointer_to_mutable_int<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token keyword">const</span> <span class="token operator">*</span><span class="token keyword">const</span> constant_pointer_to_constant_int<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h2 id="Shared-Pointer-amp-Cyclic-Reference"><a href="#Shared-Pointer-amp-Cyclic-Reference" class="headerlink" title="Shared Pointer &amp; Cyclic Reference"></a>Shared Pointer &amp; Cyclic Reference</h2><p>Use <code>weak_ptr</code>.  Lets say <code>A</code> owns <code>B</code> but <code>B</code> does not own <code>A</code> then we replace the reference to <code>A</code> in <code>B</code> with a <code>weak_ptr</code></p>
+<h3 id="unique-ptr、shared-ptr-and-weak-ptr"><a href="#unique-ptr、shared-ptr-and-weak-ptr" class="headerlink" title="unique_ptr、shared_ptr and weak_ptr."></a>unique_ptr、shared_ptr and weak_ptr.</h3><h4 id="Reference-Count"><a href="#Reference-Count" class="headerlink" title="Reference Count"></a>Reference Count</h4><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">std::shared_ptr p1(new int());
+p1.use_count();
+p1.reset();
+p1.reset(new int(34)); or p1 &#x3D; nullptr; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="Why-auto-ptr-is-banned"><a href="#Why-auto-ptr-is-banned" class="headerlink" title="Why auto_ptr is banned"></a>Why auto_ptr is banned</h4><p>The <strong>copy semantics</strong> of <code>auto_ptr</code> are not compatible with the containers.</p>
+<p>Specifically, copying one <code>auto_ptr</code> to another does not create two equal objects since one has lost its ownership of the pointer.</p>
+<h2 id="Constructors-the-big-4"><a href="#Constructors-the-big-4" class="headerlink" title="Constructors, the big 4"></a>Constructors, the big 4</h2><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">namespace cs225 &#123;
+  class String &#123;
+  private:
+      char* s;
+      int size;
+
+  public:
+    	&#x2F;&#x2F; const variables must be initialized using Initializer List
+    	&#x2F;&#x2F; Reference members must be initialized using Initializer List.
+    	&#x2F;&#x2F; For initialization of member objects which do not have default constructor
+    	String():s(NULL), size(5)&#123;&#125;
+      String(char*); &#x2F;&#x2F; constructor
+    	String(const String s&amp;);
+      ~String(); &#x2F;&#x2F; destructor, 
+    	String&amp; operator&#x3D;(const String&amp; b) &#x2F;&#x2F; Copy assignment operator
+      &#123;
+          x &#x3D; b.x;
+          return *this;
+      &#125;
+    &#x2F;&#x2F; operator&#x3D; ( const String&amp;) &#x3D; default;
+    &#x2F;&#x2F; operator&#x3D; ( const String&amp;) &#x3D; delete;
+  &#125;;
+&#125;
+
+String::String(char* c)
+&#123;
+    size &#x3D; strlen(c);
+    s &#x3D; new char[size + 1];
+    strcpy(s, c);
+&#125;
+String::~String() &#123; delete[] s; &#125;
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>Copy constructor is called when a new object is created from an existing object, as a copy of the existing object.</li>
+<li>Assignment operator is called when an already initialized object is assigned a new value from another existing object.</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int main() 
+&#123; 
+    Test t1, t2; 
+    t2 &#x3D; t1; &#x2F;&#x2F; calls assignment operator, same as &quot;t2.operator&#x3D;(t1);&quot;
+    Test t3 &#x3D; t1; &#x2F;&#x2F; calls copy constructor, same as &quot;Test t3(t1);&quot;
+    return 0; 
+&#125; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="Initializor-List"><a href="#Initializor-List" class="headerlink" title="Initializor List"></a>Initializor List</h3><p> Initialization lists get completely executed <em>before</em> entering the constructor block.</p>
+<ul>
+<li>non-static const variables must be initialized using Initializer List</li>
+<li>Reference members must be initialized using Initializer List.</li>
+<li>For initialization of member objects which do not have default constructor<ul>
+<li>If class A had both default and parameterized constructors, then Initializer List is not must if we want to initialize “a” using default constructor, but it is must to initialize “a” using parameterized constructor. </li>
+</ul>
+</li>
+<li>For initialization of base class members<ul>
+<li>Like point 3, the parameterized constructor of the base class can only be called using Initializer List.</li>
+</ul>
+</li>
+<li>When constructor’s parameter name is same as data member<ul>
+<li><code>A::A(int i):i(i) &#123; &#125;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="Virtual"><a href="#Virtual" class="headerlink" title="Virtual"></a>Virtual</h2><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class Shape &#123;
+public:
+  virtual void draw() const &#x3D; 0;  &#x2F;&#x2F; &#x3D; 0 means it is &quot;pure virtual&quot;
+  virtual Shape* clone() const &#x3D; 0;
+  virtual  ~Shape();&#x2F;&#x2F; Ensures to invoke actual object destructor
+  &#x2F;&#x2F; virtual  ~Shape()&#123;&#125;
+&#125;;
+
+class Circle : public Shape &#123;
+public:
+  &#x2F;&#x2F; ...
+  virtual Circle* clone() const;
+  &#x2F;&#x2F; ...
+&#125;;
+
+Circle* Circle::clone() const
+&#123;
+  return new Circle(*this);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>Can we make a class constructor <em>virtual</em> in C++ to create polymorphic objects?</strong> </p>
+<p>No. C++ being statically typed (the purpose of RTTI is different) language, it is meaningless to the C++ compiler to create an object polymorphically. The compiler must be aware of the class type to create the object. </p>
+<p>In C++, the constructor cannot be virtual, because when a constructor of a class is executed there is no virtual table in the memory, means no virtual pointer defined yet.</p>
+<h2 id="Virtual-function-table"><a href="#Virtual-function-table" class="headerlink" title="Virtual function table"></a>Virtual function table</h2><p><img src="https://www.learncpp.com/images/CppTutorial/Section12/VTable.gif" alt="img"></p>
+<p>First, every class that uses virtual functions (or is derived from a class that uses virtual functions) is given its own virtual table. This table is simply a static array of function pointers that the compiler sets up at compile time. Each entry points to the most-derived function accessible by that class.</p>
+<p>Second, the compiler also adds a hidden pointer to the base class, which we will call *____vptr. *____vptr is set (automatically) when a class instance is created so that it points to the virtual table for that class. Unlike the *this pointer, which is actually a function parameter used by the compiler to resolve self-references, *____vptr is a real pointer. Consequently, it makes each class object allocated bigger by the size of one pointer. It also means that *____vptr is inherited by derived classes, which is important.</p>
+<h3 id="Polymorphism-in-C"><a href="#Polymorphism-in-C" class="headerlink" title="Polymorphism in C++"></a>Polymorphism in C++</h3><p><img src="https://media.geeksforgeeks.org/wp-content/uploads/20200703160531/Polymorphism-in-CPP.png" alt="Polymorphism-in-CPP"></p>
+<ul>
+<li><p>Function Overloading.</p>
+</li>
+<li><p>Operator overloading</p>
+</li>
+<li><p>Runtime Polymorphism: Function overriding.</p>
+</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;main function
+int main() 
+&#123;
+    base *bptr;
+    derived d;
+    bptr &#x3D; &amp;d;
+       
+    &#x2F;&#x2F;virtual function, binded at runtime (Runtime polymorphism)
+    bptr-&gt;print(); &#x2F;&#x2F; print derived class
+       
+    &#x2F;&#x2F; Non-virtual function, binded at compile time
+    bptr-&gt;show(); &#x2F;&#x2F; show base class
+  
+    return 0;
+&#125; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="Const-in-C"><a href="#Const-in-C" class="headerlink" title="Const in C++"></a>Const in C++</h2><h5 id="Const-member-functions"><a href="#Const-member-functions" class="headerlink" title="Const member functions"></a>Const member functions</h5><p>The idea of const functions is not to allow them to modify the object on which they are called.</p>
+<h5 id="Const-Classes"><a href="#Const-Classes" class="headerlink" title="Const Classes"></a>Const Classes</h5><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> A anInstance <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>Can only call const functions.</p>
+<h5 id="Const-variables"><a href="#Const-variables" class="headerlink" title="Const variables"></a>Const variables</h5><p>Must be initialized using Initializer List.</p>
+<h2 id="Static-in-C"><a href="#Static-in-C" class="headerlink" title="Static in C++"></a>Static in C++</h2><h5 id="Static-variables-in-a-Function"><a href="#Static-variables-in-a-Function" class="headerlink" title="Static variables in a Function:"></a><strong>Static variables in a Function</strong>:</h5><p>When a variable is declared as static, space for <strong>it gets allocated for the lifetime of the program</strong>. </p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void demo()
+&#123; 
+    &#x2F;&#x2F; static variable
+    static int count &#x3D; 0;
+    count++;
+&#125;
+
+int main()
+&#123;
+    for (int i&#x3D;0; i&lt;5; i++)    
+        demo();
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="Static-variables-in-a-class"><a href="#Static-variables-in-a-class" class="headerlink" title="Static variables in a class"></a><strong>Static variables in a class</strong></h5><p>As the variables declared as static are initialized only once as they are allocated space in separate static storage so, the static variables <strong>in a class are shared by the objects.</strong> </p>
+<h5 id="Class-objects-as-static"><a href="#Class-objects-as-static" class="headerlink" title="Class objects as static"></a><strong>Class objects as static</strong></h5><p>Just like variables, objects also when declared as static have a scope till the lifetime of program.</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">static GfG obj;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h5 id="Static-functions-in-a-class"><a href="#Static-functions-in-a-class" class="headerlink" title="Static functions in a class"></a><strong>Static functions in a class</strong></h5><p><strong>Static member functions are allowed to access only the static data members or other static member functions</strong>, they can not access the non-static data members or member functions of the class.</p>
+<h2 id="RTTI-Run-Time-Type-Information"><a href="#RTTI-Run-Time-Type-Information" class="headerlink" title="RTTI (Run-Time Type Information)"></a>RTTI (Run-Time Type Information)</h2><p>There are three main C++ language elements to run-time type information:</p>
+<ul>
+<li><p>The <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/cpp/dynamic-cast-operator?view=msvc-160">dynamic_cast</a> operator.</p>
+<ul>
+<li><p>Used for conversion of polymorphic types.</p>
+</li>
+<li><p>RTTI is available only for classes that are <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Polymorphism_(computer_science)">polymorphic</a>, which means they have at least one <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Virtual_method">virtual method</a>. (All have virtual destructor)</p>
+</li>
+</ul>
+</li>
+<li><p>The <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/cpp/typeid-operator?view=msvc-160">typeid</a> operator.</p>
+<ul>
+<li>Used for identifying the exact type of an object.</li>
+</ul>
+</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">std::cout &lt;&lt; typeid(person).name() &lt;&lt; std::endl;  &#x2F;&#x2F; Person (statically known at compile-time).<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><p>The <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/cpp/cpp/type-info-class?view=msvc-160">type_info</a> class.</p>
+<ul>
+<li>Used to hold the type information returned by the <strong><code>typeid</code></strong> operator.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Pure-virtual-functions-and-virtual-functions"><a href="#Pure-virtual-functions-and-virtual-functions" class="headerlink" title="Pure virtual functions and virtual functions"></a>Pure virtual functions and virtual functions</h2><ul>
+<li>A virtual function makes its class a <em>polymorphic base class</em>.<ul>
+<li>Virtual functions called through base class pointers/references will be resolved at run-time. </li>
+</ul>
+</li>
+<li>A pure virtual function implicitly makes the class it is defined for <em>abstract</em><ul>
+<li> Abstract classes cannot be instantiated. Derived classes need to override/implement all inherited pure virtual functions. </li>
+</ul>
+</li>
+</ul>
+<h2 id="Protected"><a href="#Protected" class="headerlink" title="Protected"></a>Protected</h2><p>Class member declared as Protected are inaccessible outside the class but they can be accessed by any subclass(derived class) of that class.</p>
+<h2 id="Concurrency"><a href="#Concurrency" class="headerlink" title="Concurrency"></a>Concurrency</h2><h3 id="Example-of-Blocking-Queue"><a href="#Example-of-Blocking-Queue" class="headerlink" title="Example of Blocking Queue"></a>Example of Blocking Queue</h3><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#ifndef BLOCKINGQUEUE_H
+#define BLOCKINGQUEUE_H
+
+#include &lt;queue&gt;
+#include &lt;mutex&gt;
+#include &lt;condition_variable&gt;
+
+template &lt;typename T&gt;
+class BlockingQueue
+&#123;
+public:
+    BlockingQueue():lk(), sig(), q()&#123;&#125;
+    &#x2F;&#x2F; don&#39;t allow copy ctor
+    BlockingQueue(const BlockingQueue&amp;) &#x3D; delete;
+    BlockingQueue&amp; operator&#x3D;(const BlockingQueue&amp; b) &#x3D; delete; 
+
+    ~BlockingQueue()&#123;&#125;
+
+		&#x2F;&#x2F; Allow rvalue reference
+  	&#x2F;&#x2F; move constructor and move assignment
+    void push(T&amp;&amp; value)
+    &#123;
+      	&#x2F;&#x2F; unique_lock not lk.lock()
+      	&#x2F;&#x2F; could also use lock_guard if no need for condition_variable: std::lock_guard&lt;std::mutex&gt; guard(myMutex);
+        std::unique_lock&lt;std::mutex&gt; lkguard(lk); &#x2F;&#x2F; can use lkguard.unlock() if want to release early
+        q.push(value);
+        sig.notify_all();
+      	&#x2F;&#x2F; end of life-cycle for lkguard, releases.
+    &#125;
+
+    void push(const T&amp; value)
+    &#123;
+        std::unique_lock&lt;std::mutex&gt; lock(lk);
+        q.push(value);
+        sig.notify_all();
+    &#125;
+		
+  	&#x2F;&#x2F; wait until queue not empty
+    T pop()
+    &#123;
+        std::unique_lock&lt;std::mutex&gt; lock(lk);
+        while(q.empty())
+            sig.wait(lock);
+        T value(std::move(q.front()));
+        q.pop();
+        return value;
+    &#125;
+
+    size_t size() const
+    &#123;
+        std::unique_lock&lt;std::mutex&gt; lock(lk);
+        return q.size();
+    &#125;
+private:
+    std::queue&lt;T&gt; q;
+    std::mutex lk;
+    std::condition_variable sig;
+&#125;;
+#endif<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>master 线程 （生产者）：负责往阻塞队列中塞入数据，并唤醒正在阻塞的 worker 线程。</li>
+<li>worker 线程（消费者）：负责从阻塞队列中取数据，如果没有数据便阻塞，直到被 master 线程唤醒。</li>
+</ul>
+<h2 id="Singleton"><a href="#Singleton" class="headerlink" title="Singleton"></a>Singleton</h2><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;memory&gt; &#x2F;&#x2F; shared_ptr
+#include &lt;mutex&gt;  &#x2F;&#x2F; mutex
+
+&#x2F;&#x2F; version 2:
+&#x2F;&#x2F; with problems below fixed:
+&#x2F;&#x2F; 1. thread is safe now
+&#x2F;&#x2F; 2. memory doesn&#39;t leak
+
+class Singleton&#123;
+public:
+    ~Singleton()&#123;&#125;
+    Singleton(Singleton&amp;)&#x3D;delete;
+    Singleton&amp; operator&#x3D;(const Singleton&amp;)&#x3D;delete;
+    static std::shared_ptr&lt;Singleton&gt; get_instance()&#123;
+        if(m_instance_ptr&#x3D;&#x3D;nullptr)&#123;
+            std::lock_guard&lt;std::mutex&gt; lk(m_mutex);
+            if(m_instance_ptr &#x3D;&#x3D; nullptr)&#123;
+              m_instance_ptr &#x3D; std::shared_ptr&lt;Singleton&gt;(new Singleton);
+            &#125;
+        &#125;
+        return m_instance_ptr;
+    &#125;
+
+
+private:
+    Singleton()&#123;&#125;
+    static std::shared_ptr&lt;Singleton&gt; m_instance_ptr;
+    static std::mutex m_mutex;
+&#125;;
+
+&#x2F;&#x2F; initialization static variables out of class
+Singleton::Ptr Singleton::m_instance_ptr &#x3D; nullptr;
+std::mutex Singleton::m_mutex;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+
+using namespace std;
+
+class Singleton &#123;
+private:
+   static Singleton *instance;
+   int data;
+ 
+   &#x2F;&#x2F; Private constructor so that no objects can be created.
+   Singleton() &#123;
+      data &#x3D; 0;
+   &#125;
+
+  public:
+   static Singleton *getInstance() &#123;
+      if (!instance)
+      instance &#x3D; new Singleton;
+      return instance;
+   &#125;
+
+   int getData() const &#123;
+      return this -&gt; data;
+   &#125;
+
+   void setData(int data) &#123;
+      this -&gt; data &#x3D; data;
+   &#125;
+&#125;;
+
+&#x2F;&#x2F;Initialize pointer to zero so that it can be initialized in first call to getInstance
+Singleton *Singleton::instance &#x3D; 0;
+
+int main()&#123;
+   Singleton *s &#x3D; s-&gt;getInstance();
+   cout &lt;&lt; s-&gt;getData() &lt;&lt; endl;
+   s-&gt;setData(100);
+   cout &lt;&lt; s-&gt;getData() &lt;&lt; endl;
+   return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="STL-sort"><a href="#STL-sort" class="headerlink" title="STL sort"></a>STL sort</h2><p>The algorithm used by sort() is <a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/know-your-sorting-algorithm-set-2-introsort-cs-sorting-weapon/"><strong>IntroSort</strong></a>. Introsort being a hybrid sorting algorithm uses three sorting algorithm to minimize the running time, <a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/quick-sort/">Quicksort</a>, <a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/heap-sort/">Heapsort</a> and <a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/insertion-sort/">Insertion Sort</a>. Simply putting, it is the best sorting algorithm around. It is a hybrid sorting algorithm, which means that it uses more than one sorting algorithms as a routine. </p>
+
+
+  </article>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+    
+
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+<div class="right-foot">
+    <div class="firstrow">
+        <a href="#top" target="_self">
+        <svg class="i-caret-right" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M10 30 L26 16 10 2 Z"></path>
+        </svg>
+        </a>
+        
+    </div>
+    <div class="secondrow">
+        <a target="_blank" rel="noopener" href="https://github.com/Abracax">
+        Abracax
+        </a>
+    </div>
+</div>
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/blog/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/blog/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>

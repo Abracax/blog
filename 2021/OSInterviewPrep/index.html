@@ -1,0 +1,489 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  <meta name="referrer" content="unsafe-url">
+  
+  <title>Operating Systems InterviewPrep</title>
+  <meta name="author" content="Abracat">
+  <meta name="description" content="Processes and Threads
+Cost of scheduling: Context switch. Cost of synchronization and communication. 
+
+Parallelization: Parallelization in a single pr">
+  
+  
+  <meta property="og:title" content="Operating Systems InterviewPrep"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="Abracax&#39;s Notes"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/blog/atom.xml" title="Abracax&#39;s Notes" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/blog/favicon.ico">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="main-ctnr">
+      <div class="behind">
+  <a href="/blog/" class="back black-color">
+    <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+        <path d="M2 30 L30 2 M30 30 L2 2"></path>
+    </svg>
+  </a>
+  
+</div>
+
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        Operating Systems InterviewPrep
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      <time datetime="2021-08-12T12:19:27.000Z" itemprop="datePublished">
+  <svg class="i-calendar" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2021-08-12
+</time>
+
+
+
+
+
+
+    </div>
+    <hr>
+    
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Processes-and-Threads"><span class="toc-text">Processes and Threads</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Syscalls"><span class="toc-text">Syscalls</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPC"><span class="toc-text">IPC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Shared-files-fcntl-filelocks"><span class="toc-text">Shared files,  fcntl, filelocks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shared-memory-with-semaphores-fastest"><span class="toc-text">Shared memory (with semaphores, fastest)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Why-shared-mempory-is-fastest"><span class="toc-text">Why shared mempory is fastest</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pipes-Anonymous-and-FIFO"><span class="toc-text">Pipes (Anonymous and FIFO)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Message-queues"><span class="toc-text">Message queues</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unix-domain-Sockets"><span class="toc-text">Unix domain Sockets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Signals"><span class="toc-text">Signals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kernel-threads-and-User-threads"><span class="toc-text">Kernel threads and User threads</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Syscalls-for-a-socket%E2%80%99s-lifecycle"><span class="toc-text">Syscalls for a socket’s lifecycle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#When-do-we-get-from-Userspace-to-kernel-space"><span class="toc-text">When do we get from Userspace to kernel space</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-port-range"><span class="toc-text">Linux port range</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IO-models"><span class="toc-text">IO models</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O-Multiplexing-Model-select-and-poll"><span class="toc-text">I&#x2F;O Multiplexing Model (select and poll)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Blocking-I-O-Model"><span class="toc-text">Blocking I&#x2F;O Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Non-blocking-I-O-Model"><span class="toc-text">Non-blocking I&#x2F;O Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Signal-Driven-I-O-Model-SIGIO"><span class="toc-text">Signal Driven I&#x2F;O Model( SIGIO )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Asynchronous-I-O-Model-the-POSIX-aio-functions"><span class="toc-text">Asynchronous I&#x2F;O Model(the POSIX aio_functions)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Synchronous-I-O-versus-Asynchronous-I-O"><span class="toc-text">Synchronous I&#x2F;O versus Asynchronous I&#x2F;O</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deadlock"><span class="toc-text">Deadlock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Critical-Section"><span class="toc-text">Critical Section</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CLI-STI-single-cpu"><span class="toc-text">CLI, STI single cpu</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#About-fork-and-exec"><span class="toc-text">About fork() and exec()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Context-Switch-from-Kernel-to-User"><span class="toc-text">Context Switch from Kernel to User</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Syscall-exit"><span class="toc-text">Syscall exit()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Semaphores"><span class="toc-text">Semaphores</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mutex-and-Sempahore-usage-differences"><span class="toc-text">Mutex and Sempahore usage differences</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Sleep"><span class="toc-text">Sleep.</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Physical-Address-and-Virtual-Address"><span class="toc-text">Physical Address and Virtual Address</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Page-Tables"><span class="toc-text">Page Tables</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PDE-PTE"><span class="toc-text">PDE PTE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TLB-from-MMU"><span class="toc-text">TLB from MMU</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Page-Faults"><span class="toc-text">Page Faults</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Memory-mapped-file"><span class="toc-text">Memory-mapped file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#There-are-two-types-of-memory-mapped-files"><span class="toc-text">There are two types of memory-mapped files:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reading-from-Block-devices"><span class="toc-text">Reading from Block devices</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Page-replacement-algorithm"><span class="toc-text">Page replacement algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lifecycle-of-Processes"><span class="toc-text">Lifecycle of Processes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Threads"><span class="toc-text">Threads</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scheduling"><span class="toc-text">Scheduling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kernel-Space-User-Space-Interfaces"><span class="toc-text">Kernel Space, User Space Interfaces</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Shared-Memory-mmap%EF%BC%89"><span class="toc-text">Shared Memory(mmap）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Upcall"><span class="toc-text">Upcall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ioctl"><span class="toc-text">Ioctl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#System-Calls"><span class="toc-text">System Calls</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Signals-1"><span class="toc-text">Signals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Character-Devices"><span class="toc-text">Character Devices</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Filesystem"><span class="toc-text">Filesystem</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Procfs-proc"><span class="toc-text">Procfs(&#x2F;proc)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#sysctl"><span class="toc-text">sysctl</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Seq-file-lt-linux-seq-file-h-gt"><span class="toc-text">Seq_file(&lt;linux&#x2F;seq_file.h&gt;)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Sysfs"><span class="toc-text">Sysfs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Configfs"><span class="toc-text">Configfs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#debugfs"><span class="toc-text">debugfs</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Socket-Based-Mechanisms"><span class="toc-text">Socket Based Mechanisms</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Netlink-sockets"><span class="toc-text">Netlink sockets</span></a></li></ol></li></ol></li></ol></li></ol>
+    
+    <div class="picture-container">
+      
+    </div>
+    <h2 id="Processes-and-Threads"><a href="#Processes-and-Threads" class="headerlink" title="Processes and Threads"></a>Processes and Threads</h2><ul>
+<li><p>Cost of scheduling: Context switch. Cost of synchronization and communication. </p>
+</li>
+<li><p>Parallelization: Parallelization in a single process. Support for multiple machines.</p>
+</li>
+<li><p>Resources: Processes are much more expensive. Threads share resources at low cost in a single process, share code segment, data segment, open files and other system resources. Same heap, independant stacks. Processes have independent address space and resources. </p>
+</li>
+</ul>
+<h2 id="Syscalls"><a href="#Syscalls" class="headerlink" title="Syscalls"></a>Syscalls</h2><pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly"># save all registers
+# pushfl, pushal
+# store ss0, esp0, cs, eip, eflags, ss, esp
+# The three privilege-level stack pairs (SS0:ESP0, SS1:ESP1, SS2:ESP2)
+# task state segment (TSS)
+int 0x80; # vector in IDT
+call syscall_func_c_land;
+iret;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>In int 0x80, all registers below will be pushed onto stack.</p>
+<p>The <code>USER_CS</code> and <code>USER_DS</code> information are from the TSS(task state segment).</p>
+<p>A segment register called the task register (TR) holds a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/X86_memory_segmentation">segment selector</a> that points to a valid TSS segment descriptor which resides in the GDT. The TSS may reside anywhere in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Memory">memory</a>.</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">/* the order to push are as follows:
+       0 | ss (USER_DS)
+       esp  (132MB USER_STACK_BASE)
+       eflags (pushfl)
+       0 | cs (USER_CS)
+       eip
+*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+<h2 id="IPC"><a href="#IPC" class="headerlink" title="IPC"></a>IPC</h2><h3 id="Shared-files-fcntl-filelocks"><a href="#Shared-files-fcntl-filelocks" class="headerlink" title="Shared files,  fcntl, filelocks"></a>Shared files,  <strong>fcntl</strong>, filelocks</h3><h3 id="Shared-memory-with-semaphores-fastest"><a href="#Shared-memory-with-semaphores-fastest" class="headerlink" title="Shared memory (with semaphores, fastest)"></a>Shared memory (with semaphores, fastest)</h3><ul>
+<li>std::mutex does not support interprocess operation but pthread library has interprocess mutex</li>
+</ul>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token class-name">caddr_t</span> memptr <span class="token operator">=</span> <span class="token function">mmap</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span>       <span class="token comment">/* let system pick where to put segment */</span>
+                        ByteSize<span class="token punctuation">,</span>   <span class="token comment">/* how many bytes */</span>
+                        PROT_READ <span class="token operator">|</span> PROT_WRITE<span class="token punctuation">,</span> <span class="token comment">/* access protections */</span>
+                        MAP_SHARED<span class="token punctuation">,</span> <span class="token comment">/* mapping visible to other processes */</span>
+                        fd<span class="token punctuation">,</span>         <span class="token comment">/* file descriptor */</span>
+                        <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>         <span class="token comment">/* offset: start at 1st byte */</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">caddr_t</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token number">1</span>  <span class="token operator">==</span> memptr<span class="token punctuation">)</span> <span class="token function">report_and_exit</span><span class="token punctuation">(</span><span class="token string">"Can't get segment..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"shared mem address: %p [0..%d]\n"</span><span class="token punctuation">,</span> memptr<span class="token punctuation">,</span> ByteSize <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"backing file:       /dev/shm%s\n"</span><span class="token punctuation">,</span> BackingFile <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">/* semaphore code to lock the shared mem */</span>
+  <span class="token class-name">sem_t</span><span class="token operator">*</span> semptr <span class="token operator">=</span> <span class="token function">sem_open</span><span class="token punctuation">(</span>SemaphoreName<span class="token punctuation">,</span> <span class="token comment">/* name */</span>
+                           O_CREAT<span class="token punctuation">,</span>       <span class="token comment">/* create the semaphore */</span>
+                           AccessPerms<span class="token punctuation">,</span>   <span class="token comment">/* protection perms */</span>
+                           <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment">/* initial value */</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>semptr <span class="token operator">==</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token function">report_and_exit</span><span class="token punctuation">(</span><span class="token string">"sem_open"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="Why-shared-mempory-is-fastest"><a href="#Why-shared-mempory-is-fastest" class="headerlink" title="Why shared mempory is fastest"></a>Why shared mempory is fastest</h4><ul>
+<li><p>Server reads from the input file.</p>
+</li>
+<li><p>The server writes this data in a message using either a pipe, fifo or message queue.</p>
+</li>
+<li><p>The client reads the data from the IPC channel,again requiring the data to be copied from kernel’s IPC buffer to the client’s buffer.</p>
+</li>
+<li><p>Finally the data is copied from the client’s buffer.</p>
+<p>A total of four copies of data are required (2 read and 2 write). So, shared memory provides a way by letting two or more processes share a memory segment. With Shared Memory the data is only copied twice – from input file into shared memory and from shared memory to the output file.</p>
+</li>
+</ul>
+<h3 id="Pipes-Anonymous-and-FIFO"><a href="#Pipes-Anonymous-and-FIFO" class="headerlink" title="Pipes (Anonymous and FIFO)"></a>Pipes (Anonymous and FIFO)</h3><ul>
+<li><p>Through FILEs! Independent of processes.</p>
+</li>
+<li><p>Limited to <strong>64KB</strong>, reader and writer are fixed. May block if empty for reader, full for writer.</p>
+</li>
+<li><p>Anonymous pipes can be used as files, only between Parent processes and child processes.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/c-program-demonstrate-fork-and-pipe/">https://www.geeksforgeeks.org/c-program-demonstrate-fork-and-pipe/</a></li>
+</ul>
+</li>
+<li><p>Named pipes are FIFO. Supported between any 2 processes. </p>
+</li>
+<li><p>The UNIX domain sockets(AF_UNIX), anonymous pipes and FIFOs are similar in the fact they use shared memory segments. </p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">mkfifo</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>pathname<span class="token punctuation">,</span> <span class="token class-name">mode_t</span> mode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">unlink</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>pathname<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ul>
+<h3 id="Message-queues"><a href="#Message-queues" class="headerlink" title="Message queues"></a>Message queues</h3><p>A message queue is a linked list of messages stored within the kernel and identified by a message queue identifier.</p>
+<p>A new queue is created or an existing queue opened by <strong>msgget()</strong>.<br>New messages are added to the end of a queue by <strong>msgsnd()</strong>. Messages are fetched from a queue by <strong>msgrcv()</strong>. </p>
+<p>We don’t have to fetch the messages in a first-in, first-out order. Instead, we can fetch messages based on their type field.</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">msgbuf</span> <span class="token punctuation">&#123;</span>
+   <span class="token keyword">long</span> mtype<span class="token punctuation">;</span>
+   <span class="token keyword">char</span> mtext<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><strong>If msgtype is 0</strong> − Reads the first received message in the queue</li>
+<li><strong>If msgtype is +ve</strong> − Reads the first message in the queue of type msgtype (if msgtype is 10, then reads only the first message of type 10 even though other types may be in the queue at the beginning)</li>
+<li><strong>If msgtype is –ve</strong> − Reads the first message of lowest type less than or equal to the absolute value of message type (say, if msgtype is -5, then it reads first message of type less than 5 i.e., message type from 1 to 5)</li>
+</ul>
+<h3 id="Unix-domain-Sockets"><a href="#Unix-domain-Sockets" class="headerlink" title="Unix domain Sockets"></a>Unix domain Sockets</h3><p>IPC sockets (aka Unix domain sockets) enable channel-based communication for processes on the same physical device, in particular, IPC sockets communicate using a local file as a socket address.</p>
+<p>To obtain a pair of connected sockets for two-way stream communication, you call the <a target="_blank" rel="noopener" href="http://www.qnx.com/developers/docs/qnx_4.25_docs/tcpip50/prog_guide/libs/socketpair.html"><em>socketpair()</em></a> function. This function takes as arguments a domain, a style of communication, and a protocol; these arguments are shown in the following example.</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">sockaddr_un</span> saun<span class="token punctuation">,</span> fsaun<span class="token punctuation">;</span>
+saun<span class="token punctuation">.</span>sun_family <span class="token operator">=</span> AF_UNIX<span class="token punctuation">;</span>
+<span class="token function">strcpy</span><span class="token punctuation">(</span>saun<span class="token punctuation">.</span>sun_path<span class="token punctuation">,</span> ADDRESS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>s <span class="token operator">=</span> <span class="token function">socket</span><span class="token punctuation">(</span>AF_UNIX<span class="token punctuation">,</span> SOCK_STREAM<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"server: socket"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">&#125;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">bind</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> <span class="token operator">&amp;</span>saun<span class="token punctuation">,</span> len<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"server: bind"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">/*
+     * Accept connections.  When we accept one, ns
+     * will be connected to the client.  fsaun will
+     * contain the address of the client.
+     */</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>ns <span class="token operator">=</span> <span class="token function">accept</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> <span class="token operator">&amp;</span>fsaun<span class="token punctuation">,</span> <span class="token operator">&amp;</span>fromlen<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"server: accept"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+<h3 id="Signals"><a href="#Signals" class="headerlink" title="Signals"></a>Signals</h3><p>A <strong>signal</strong> is a notification to a process indicating the occurrence of an event. Signal is also called <strong>software interrupt</strong> and is not predictable to know its occurrence, hence it is also called an <strong>asynchronous event</strong>.</p>
+<p>The signals which can’t be either ignored or handled/caught are SIGSTOP and SIGKILL.</p>
+<ul>
+<li>Default Action</li>
+<li>Handle the signal</li>
+<li>Block the signals</li>
+</ul>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;signal.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">sigaction</span><span class="token punctuation">(</span><span class="token keyword">int</span> signum<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">struct</span> <span class="token class-name">sigaction</span> <span class="token operator">*</span>act<span class="token punctuation">,</span> <span class="token keyword">struct</span> <span class="token class-name">sigaction</span> <span class="token operator">*</span>oldact<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token class-name">sighandler_t</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">sighandler_t</span> <span class="token function">signal</span><span class="token punctuation">(</span><span class="token keyword">int</span> signum<span class="token punctuation">,</span> <span class="token class-name">sighandler_t</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="Kernel-threads-and-User-threads"><a href="#Kernel-threads-and-User-threads" class="headerlink" title="Kernel threads and User threads"></a>Kernel threads and User threads</h3><p>Note that user threads can block entire processes in system calls.</p>
+<p><img src="https://www.tutorialspoint.com/operating_system/images/thread_processes.jpg" alt="Single vs Multithreaded Process"></p>
+<h2 id="Syscalls-for-a-socket’s-lifecycle"><a href="#Syscalls-for-a-socket’s-lifecycle" class="headerlink" title="Syscalls for a socket’s lifecycle"></a>Syscalls for a socket’s lifecycle</h2><p><img src="https://pic4.zhimg.com/80/v2-a87a0d687823b3f2910e1bbe2fb04aa7_720w.jpg" alt="img"></p>
+<p>Or we can use strace.</p>
+<h2 id="When-do-we-get-from-Userspace-to-kernel-space"><a href="#When-do-we-get-from-Userspace-to-kernel-space" class="headerlink" title="When do we get from Userspace to kernel space"></a>When do we get from Userspace to kernel space</h2><p>syscalls, exceptions and interrupts.</p>
+<h2 id="Linux-port-range"><a href="#Linux-port-range" class="headerlink" title="Linux port range"></a>Linux port range</h2><p>16-bit.</p>
+<p>Under 1024 is reserverd by system，1024-65535 is for users.</p>
+<h2 id="IO-models"><a href="#IO-models" class="headerlink" title="IO models"></a>IO models</h2><h3 id="I-O-Multiplexing-Model-select-and-poll"><a href="#I-O-Multiplexing-Model-select-and-poll" class="headerlink" title="I/O Multiplexing Model (select and poll)"></a>I/O Multiplexing Model (select and poll)</h3><p>We block in a call to <code>select</code>, waiting for the datagram socket to be readable. When <code>select</code> returns that the socket is readable, we then call <code>recvfrom</code> to copy the datagram into our application buffer.</p>
+<h3 id="Blocking-I-O-Model"><a href="#Blocking-I-O-Model" class="headerlink" title="Blocking I/O Model"></a>Blocking I/O Model</h3><h3 id="Non-blocking-I-O-Model"><a href="#Non-blocking-I-O-Model" class="headerlink" title="Non-blocking I/O Model"></a>Non-blocking I/O Model</h3><p>Immediately returns an error instead. Put the process to sleep, need polling.</p>
+<h3 id="Signal-Driven-I-O-Model-SIGIO"><a href="#Signal-Driven-I-O-Model-SIGIO" class="headerlink" title="Signal Driven I/O Model( SIGIO )"></a>Signal Driven I/O Model( SIGIO )</h3><p>Kernel notify user process with SIGIO signal when descriptor is ready, install a signal handler using the <code>sigaction</code> system call.</p>
+<h3 id="Asynchronous-I-O-Model-the-POSIX-aio-functions"><a href="#Asynchronous-I-O-Model-the-POSIX-aio-functions" class="headerlink" title="Asynchronous I/O Model(the POSIX aio_functions)"></a>Asynchronous I/O Model(the POSIX <code>aio_</code>functions)</h3><p>In general, these functions work by telling the kernel to start the operation and to notify us when the entire operation (including the copy of the data from the kernel to our buffer) is complete. The main difference between this model and the signal-driven I/O model in the previous section is that with signal-driven I/O, the kernel tells us when an I/O operation can be <em>initiated</em>, but with asynchronous I/O, the kernel tells us when an I/O operation is <em>complete</em>.</p>
+<p><img src="https://www.masterraghu.com/subjects/np/introduction/unix_network_programming_v1.3/files/06fig06.gif" alt="graphics/06fig06.gif"></p>
+<h3 id="Synchronous-I-O-versus-Asynchronous-I-O"><a href="#Synchronous-I-O-versus-Asynchronous-I-O" class="headerlink" title="Synchronous I/O versus Asynchronous I/O"></a>Synchronous I/O versus Asynchronous I/O</h3><p>Blocking, nonblocking, I/O multiplexing, and signal-driven I/O—are all synchronous because the actual I/O operation (<code>recvfrom</code>) blocks the process. </p>
+<p>Only the asynchronous I/O model matches the asynchronous I/O definition.</p>
+<h2 id="Deadlock"><a href="#Deadlock" class="headerlink" title="Deadlock"></a>Deadlock</h2><ul>
+<li>Mutual exclusion: processes require exclusive control of its resources (not sharing). </li>
+<li>Hold and wait: process may wait for a resource while holding others.</li>
+<li>No preemption: process will not give up a resource until it is finished with it. Also, processes are irreversible: unable to reset to an earlier state where resources not held. </li>
+<li>Circular wait: each process in the chain holds a resource requested by another</li>
+</ul>
+<h2 id="Critical-Section"><a href="#Critical-Section" class="headerlink" title="Critical Section"></a>Critical Section</h2><p>The critical section is <strong>a code segment where the shared variables can be accessed</strong>. An atomic action is required in a critical section i.e. only one process can execute in its critical section at a time. All the other processes have to wait to execute in their critical sections.</p>
+<h4 id="CLI-STI-single-cpu"><a href="#CLI-STI-single-cpu" class="headerlink" title="CLI, STI single cpu"></a>CLI, STI single cpu</h4><h2 id="About-fork-and-exec"><a href="#About-fork-and-exec" class="headerlink" title="About fork() and exec()"></a>About fork() and exec()</h2><h3 id="Context-Switch-from-Kernel-to-User"><a href="#Context-Switch-from-Kernel-to-User" class="headerlink" title="Context Switch from Kernel to User"></a>Context Switch from Kernel to User</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// save parent process's ebp</span>
+<span class="token keyword">asm</span> <span class="token keyword">volatile</span> <span class="token punctuation">(</span>
+  <span class="token string">"movl %%ebp, %0"</span>
+  <span class="token operator">:</span><span class="token string">"=r"</span> <span class="token punctuation">(</span>pcb<span class="token operator">-></span>parent_ebp<span class="token punctuation">)</span>
+  <span class="token operator">:</span>
+  <span class="token operator">:</span><span class="token string">"memory"</span><span class="token punctuation">,</span> <span class="token string">"cc"</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">mmap_user</span><span class="token punctuation">(</span>pcb<span class="token operator">-></span>pid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// prepare for context switch</span>
+tss<span class="token punctuation">.</span>esp0 <span class="token operator">=</span> <span class="token function">get_esp0</span><span class="token punctuation">(</span>pcb<span class="token operator">-></span>pid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/* the order to push are as follows:
+       0 | ss (USER_DS)
+       esp  (132MB USER_STACK_BASE)
+       eflags (pushfl)
+       0 | cs (USER_CS)
+       %eip iret
+*/</span>
+<span class="token keyword">asm</span> <span class="token keyword">volatile</span> <span class="token punctuation">(</span><span class="token string">"                  \n\
+            pushl %%eax              \n\
+            pushl %%ebx              \n\
+            pushfl                  \n\
+            pushl %%edx              \n\
+            pushl %%ecx              \n\
+            iret                    \n\
+            "</span>                           \
+              <span class="token operator">:</span>                           \
+              <span class="token operator">:</span> <span class="token string">"a"</span><span class="token punctuation">(</span>USER_DS<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">(</span>USER_STACK_BASE<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"d"</span><span class="token punctuation">(</span>USER_CS<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"c"</span><span class="token punctuation">(</span>user_eip<span class="token punctuation">)</span>  \
+              <span class="token operator">:</span> <span class="token string">"memory"</span><span class="token punctuation">,</span> <span class="token string">"cc"</span>            \
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="Syscall-exit"><a href="#Syscall-exit" class="headerlink" title="Syscall exit()"></a>Syscall exit()</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">tss<span class="token punctuation">.</span>esp0 <span class="token operator">=</span> <span class="token function">get_esp0</span><span class="token punctuation">(</span>parent_pid<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    
+<span class="token comment">// restore parent paging</span>
+<span class="token function">mmap_user</span><span class="token punctuation">(</span>parent_pid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//delete_pid(child_pcb);</span>
+<span class="token comment">// jump to execture return</span>
+<span class="token comment">// restore parent process's ebp</span>
+<span class="token keyword">asm</span> <span class="token keyword">volatile</span> <span class="token punctuation">(</span>
+  <span class="token string">"movl %0, %%ebp ;"</span>
+  <span class="token string">"andl $0x000000FF, %%eax ;"</span>
+  <span class="token string">"leave  ;"</span>
+  <span class="token string">"ret  ;"</span>
+  <span class="token operator">:</span>
+  <span class="token operator">:</span> <span class="token string">"b"</span> <span class="token punctuation">(</span>child_pcb<span class="token operator">-></span>parent_ebp<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"a"</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">int32_t</span><span class="token punctuation">)</span> status<span class="token punctuation">)</span>
+  <span class="token operator">:</span><span class="token string">"memory"</span><span class="token punctuation">,</span> <span class="token string">"cc"</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="Semaphores"><a href="#Semaphores" class="headerlink" title="Semaphores"></a>Semaphores</h2><p>There are two categories of semaphores i.e. <strong>Counting semaphores</strong> and <strong>Binary semaphores</strong>.</p>
+<p>In <strong>Counting semaphores</strong>, firstly, the semaphore variable is initialized with the number of resources available. After that, whenever a process needs some resource, then the wait() function is called and the value of the semaphore variable is decreased by one. The process then uses the resource and after using the resource, the signal() function is called and the value of the semaphore variable is increased by one. </p>
+<h3 id="Mutex-and-Sempahore-usage-differences"><a href="#Mutex-and-Sempahore-usage-differences" class="headerlink" title="Mutex and Sempahore usage differences"></a>Mutex and Sempahore usage differences</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">/* Task 2 */</span>
+   <span class="token function">mutexWait</span><span class="token punctuation">(</span>mutex_mens_room<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">// Safely use shared resource</span>
+   <span class="token function">mutexRelease</span><span class="token punctuation">(</span>mutex_mens_room<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>By contrast, you should always use a semaphore like this:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">/* Task 1 - Producer */</span>
+    <span class="token function">sem_signal</span><span class="token punctuation">(</span>sem_power_btn<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// Send the signal</span>
+
+<span class="token comment">/* Task 2 - Consumer */</span>
+    <span class="token function">sem_wait</span><span class="token punctuation">(</span>sem_power_btn<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Wait for signal</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Importantly, semaphores can also be used to signal from an interrupt service routine (ISR) to a task. Signaling a semaphore is a non-blocking RTOS(real-time operating system ) behavior and thus ISR safe. Because this technique eliminates the error-prone need to disable interrupts at the task level, signaling from within an ISR is an excellent way to make embedded software more reliable by design.</p>
+<h5 id="Sleep"><a href="#Sleep" class="headerlink" title="Sleep."></a>Sleep.</h5><h3 id="Physical-Address-and-Virtual-Address"><a href="#Physical-Address-and-Virtual-Address" class="headerlink" title="Physical Address and Virtual Address"></a>Physical Address and Virtual Address</h3><p>Contiguously allocate memory, avoid fragmentation, permission isolation.</p>
+<p>The bottom 2 GB of the address space is for user processes, while the top 2 GB is for the kernel. The kernel address space is statically mapped into the address space. The top 1 GB of the user’s space is reserved for system elements while the bottom 1 GB holds the user code, data, stack, and heap.</p>
+<h3 id="Page-Tables"><a href="#Page-Tables" class="headerlink" title="Page Tables"></a>Page Tables</h3><h4 id="PDE-PTE"><a href="#PDE-PTE" class="headerlink" title="PDE PTE"></a>PDE PTE</h4><p>The page table is where the operating system stores its mappings of virtual addresses to physical addresses, with each mapping also known as a <em>page table entry</em> (PTE).</p>
+<h4 id="TLB-from-MMU"><a href="#TLB-from-MMU" class="headerlink" title="TLB from MMU"></a>TLB from MMU</h4><h3 id="Page-Faults"><a href="#Page-Faults" class="headerlink" title="Page Faults"></a>Page Faults</h3><p>The page table lookup may fail, triggering a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Page_fault">page fault</a>, for two reasons:</p>
+<ul>
+<li>The lookup may fail if there is no translation available for the virtual address, meaning that virtual address is invalid. It will cause a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Segmentation_fault">segmentation fault</a> signal being sent to the offending program.</li>
+<li>The lookup may also fail if the page is currently not resident in physical memory. This will occur if the requested page has been <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Paging">moved out</a> of physical memory to make room for another page. A similar mechanism is used for <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Memory-mapped_file">memory-mapped files</a>, which are mapped to virtual memory and loaded to physical memory on demand.</li>
+</ul>
+<h4 id="Memory-mapped-file"><a href="#Memory-mapped-file" class="headerlink" title="Memory-mapped file"></a>Memory-mapped file</h4><p><strong>More precisely, a memory mapped file is a mirror of a portion (or entire) file on virtual memory managed completely by the operating system</strong>.</p>
+<p>In other words, whenever a file is memory mapped, the operating system will immediately map file memory to a region on virtual memory. You can think of this as some RAM space. Whenever the OS dumps the file content to disk (to accommodate another task) a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Page_fault">page fault</a> can happen. That’s when the OS goes back and reloads content back to the RAM. </p>
+<h4 id="There-are-two-types-of-memory-mapped-files"><a href="#There-are-two-types-of-memory-mapped-files" class="headerlink" title="There are two types of memory-mapped files:"></a>There are two types of memory-mapped files:</h4><ul>
+<li><p>Persisted memory-mapped files</p>
+<p>Persisted files are memory-mapped files that are associated with a source file on a disk. When the last process has finished working with the file, the data is saved to the source file on the disk. These memory-mapped files are suitable for working with extremely large source files.</p>
+</li>
+<li><p>Non-persisted memory-mapped files</p>
+<p>Non-persisted files are memory-mapped files that are not associated with a file on a disk. When the last process has finished working with the file, the data is lost and the file is reclaimed by garbage collection. These files are suitable for creating shared memory for inter-process communications (IPC).</p>
+</li>
+</ul>
+<h2 id="Reading-from-Block-devices"><a href="#Reading-from-Block-devices" class="headerlink" title="Reading from Block devices"></a>Reading from Block devices</h2><ol>
+<li>invoke call to VFS read and call read for block devices</li>
+<li>Each block requires its own <em>block buffer</em>, which is a RAM memory area used by the kernel to store the block’s content. When the kernel reads a block from disk, it fills the corresponding block buffer with the values obtained from the hardware device; similarly, when the kernel writes a block on disk, it updates the corresponding group of adjacent bytes on the hardware device with the actual values of the associated block buffer. The size of a block buffer always matches the size of the corresponding block.</li>
+</ol>
+<h1 id="Page-replacement-algorithm"><a href="#Page-replacement-algorithm" class="headerlink" title="Page replacement algorithm"></a>Page replacement algorithm</h1><ol>
+<li><strong>First In First Out (FIFO)</strong></li>
+<li><strong>Optimal Page replacement</strong>(OPT) <ol>
+<li> pages are replaced which would not be used for the longest duration of time in the future</li>
+</ol>
+</li>
+<li><strong>Least Recently Used</strong> </li>
+</ol>
+<h2 id="Lifecycle-of-Processes"><a href="#Lifecycle-of-Processes" class="headerlink" title="Lifecycle of Processes"></a>Lifecycle of Processes</h2><ul>
+<li>运行（running）态</li>
+<li>就绪（ready）态</li>
+<li>阻塞（wait）态</li>
+</ul>
+<h3 id="Threads"><a href="#Threads" class="headerlink" title="Threads"></a>Threads</h3><ul>
+<li>Runnable</li>
+<li>Blocked</li>
+<li>Waiting</li>
+<li>Timed Waiting</li>
+</ul>
+<h2 id="Scheduling"><a href="#Scheduling" class="headerlink" title="Scheduling"></a>Scheduling</h2><ul>
+<li><strong>FCFS</strong></li>
+<li>SJB</li>
+<li><strong>RR</strong></li>
+<li><strong>HRRN</strong>(<strong>最高响应比优先法</strong>)<ul>
+<li><strong>R =(W+T)/T = 1+W/T</strong></li>
+<li>T is runnint time，W is waiting time</li>
+</ul>
+</li>
+<li><strong>Multilevel Feedback Queue</strong></li>
+</ul>
+<h2 id="Kernel-Space-User-Space-Interfaces"><a href="#Kernel-Space-User-Space-Interfaces" class="headerlink" title="Kernel Space, User Space Interfaces"></a><strong>Kernel Space, User Space Interfaces</strong></h2><h3 id="Shared-Memory-mmap）"><a href="#Shared-Memory-mmap）" class="headerlink" title="Shared Memory(mmap）"></a>Shared Memory(mmap）</h3><h3 id="Upcall"><a href="#Upcall" class="headerlink" title="Upcall"></a>Upcall</h3><p>Allows a kernel module to invoke a function in user space. It is possible to start a program in user space, and give it some command line arguments, as well as setting environment variables.</p>
+<h3 id="Ioctl"><a href="#Ioctl" class="headerlink" title="Ioctl"></a>Ioctl</h3><p>The ioctl mechanism is implemented as a single system call which multiplexes the different commands to the appropriate kernel space function. A call to ioctl has three arguments: a file (or socket) descriptor, a number identifying the command, and a data argument. </p>
+<h3 id="System-Calls"><a href="#System-Calls" class="headerlink" title="System Calls"></a>System Calls</h3><h3 id="Signals-1"><a href="#Signals-1" class="headerlink" title="Signals"></a>Signals</h3><p>install a signal handler using the <code>sigaction</code> system call?</p>
+<h3 id="Character-Devices"><a href="#Character-Devices" class="headerlink" title="Character Devices"></a>Character Devices</h3><p>Each module can register itself as a character device and provide some read and write functions which handle the data. </p>
+<h3 id="Filesystem"><a href="#Filesystem" class="headerlink" title="Filesystem"></a>Filesystem</h3><h4 id="Procfs-proc"><a href="#Procfs-proc" class="headerlink" title="Procfs(/proc)"></a>Procfs(/proc)</h4><p>Virtual files provide information about the running system such as cpu information, information about interrupts, about the available memory or the version of the kernel, devices. Networking information such as the arp table, network statistics or lists of used sockets.</p>
+<h5 id="sysctl"><a href="#sysctl" class="headerlink" title="sysctl"></a>sysctl</h5><p>Sysctl is used to modify kernel parameters at runtime. </p>
+<p>Each entry in the /proc/sys directory is represented by an entry in a table maintained by the Linux kernel, arranged in a hierarchy. A directory is represented by an entry pointing to a subtable. A file is represented by an entry of type struct ctl_table. This entry consists of the data represented by this file along with some access rules.</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sysctl vm.swappiness
+sysctl -w net.ipv4.ip_forward&#x3D;1
+sbin&#x2F;sysctl -a
+&#x2F;sbin&#x2F;sysctl -n kernel.hostname
+&#x2F;sbin&#x2F;sysctl -w kernel.domainname&#x3D;&quot;example.com&quot;
+&#x2F;sbin&#x2F;sysctl -p&#x2F;etc&#x2F;sysctl.conf
+&#x2F;sbin&#x2F;sysctl -a --pattern forward
+&#x2F;sbin&#x2F;sysctl -a --pattern forward$
+&#x2F;sbin&#x2F;sysctl -a --pattern &#39;net.ipv4.conf.(eth|wlan)0.arp&#39;
+&#x2F;sbin&#x2F;sysctl  --pattern &#39;^net.ipv6&#39; --system
+
+&#x2F;proc&#x2F;sys
+&#x2F;etc&#x2F;sysctl.d&#x2F;*.conf
+&#x2F;run&#x2F;sysctl.d&#x2F;*.conf
+&#x2F;usr&#x2F;local&#x2F;lib&#x2F;sysctl.d&#x2F;*.conf
+&#x2F;usr&#x2F;lib&#x2F;sysctl.d&#x2F;*.conf
+&#x2F;lib&#x2F;sysctl.d&#x2F;*.conf
+&#x2F;etc&#x2F;sysctl.conf<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="Seq-file-lt-linux-seq-file-h-gt"><a href="#Seq-file-lt-linux-seq-file-h-gt" class="headerlink" title="Seq_file(&lt;linux/seq_file.h&gt;)"></a>Seq_file(&lt;linux/seq_file.h&gt;)</h4><p>There are numerous ways for a device driver (or other kernel component) to provide information to the user or system administrator. One useful technique is the creation of virtual files, in debugfs, /proc or elsewhere.</p>
+<p>The seq_file interface is available via &lt;linux/seq_file.h&gt;. There are three aspects to seq_file:</p>
+<blockquote>
+<ul>
+<li>An iterator interface which lets a virtual file implementation step through the objects it is presenting.</li>
+<li>Some utility functions for formatting objects for output without needing to worry about things like output buffers.</li>
+<li>A set of canned file_operations which implement most operations on the virtual file.</li>
+</ul>
+</blockquote>
+<h4 id="Sysfs"><a href="#Sysfs" class="headerlink" title="Sysfs"></a>Sysfs</h4><p>Sysfs was designed to represent the whole device model as seen from the Linux kernel which would then no longer clutter up procfs. It contains information about devices, drivers and buses and their interconnections.</p>
+<p>Famous APIs:</p>
+<p><strong>new fs/ entry</strong></p>
+<p><strong>new bus/ entry</strong></p>
+<ul>
+<li>sys/block/ all known block devices such as hda/ ram/ sda/</li>
+<li>sys/bus/ all registered buses. Each directory below bus/ holds by default two subdirectories:<ul>
+<li>device/ for all devices attached to that bus o driver/ for all drivers assigned with that bus.</li>
+</ul>
+</li>
+<li>sys/class/ for each device type there is a subdirectory: for example /printer or /sound</li>
+<li>sys/device/ all devices known by the kernel, organised by the bus they are connected to</li>
+<li>sys/firmware/ files in this directory handle the firmware of some hardware devices</li>
+<li>sys/fs/ files to control a file system, currently used by FUSE, a user space file system implementation</li>
+<li>sys/kernel/ holds directories (mount points) for other filesystems such as debugfs, securityfs.</li>
+<li>sys/module/ each kernel module loaded is represented with a directory.</li>
+<li>sys/power/ files to handle the power state of some hardware</li>
+</ul>
+<h4 id="Configfs"><a href="#Configfs" class="headerlink" title="Configfs"></a>Configfs</h4><p>An important difference between configfs and sysfs is that in configfs all objects are created from user space with a call to mkdir(2). The kernel responds with creating the attributes (files) and then they can be read and written by the user. If the user no longer needs the files, he calls rmdir(2) and everything gets deleted. Therefore the life cycle of a configfs object is fully controlled by user space.</p>
+<h4 id="debugfs"><a href="#debugfs" class="headerlink" title="debugfs"></a>debugfs</h4><p>RAM-based file system specially designed for debugging purposes. The debugfs program is an interactive file system debugger. It can be used to examine  and change the state of an ext2, ext3, or ext4 file system.</p>
+<h3 id="Socket-Based-Mechanisms"><a href="#Socket-Based-Mechanisms" class="headerlink" title="Socket Based Mechanisms"></a>Socket Based Mechanisms</h3><p><strong>AF_INET</strong>: designed for network communication, but UDP sockets can also be used for the communication between a kernel module and the user space. The use of UDP sockets for node local communication involves a lot of overhead.</p>
+<p><strong>AF_PACKET</strong>: allows the user to define all packet headers.</p>
+<p><strong>AF_NETLINK</strong> (netlink sockets): They are especially designed for the communication between the kernel space and the user space.  It makes use of the standard socket APIs for user-space processes, and a special kernel API for kernel modules. There are different netlink socket types currently implemented in the kernel, all of which deal with a specific subset of the networking part of the Lin</p>
+<h5 id="Netlink-sockets"><a href="#Netlink-sockets" class="headerlink" title="Netlink sockets"></a>Netlink sockets</h5><p>Netlink sockets have the following advantages over other communication mechanisms:</p>
+<ul>
+<li>It is simple to interact with the standard Linux kernel as only a constant has to be added to the Linux kernel source code. There is no risk to pollute the kernel or to drive it in instability, since the socket can immediately be used.</li>
+<li>Netlink sockets are asynchronous as they provide queues, meaning they do not disturb kernel scheduling. </li>
+<li>Netlink sockets provide the possibility of multicast.</li>
+<li>Netlink sockets provide a truly bidirectional communication channel</li>
+<li>They have less overhead (header and processing) compared to standard UDP sockets.</li>
+</ul>
+<p>Beside these advantages netlink sockets have two drawbacks:</p>
+<ul>
+<li>Each entity using netlink sockets has to define its own protocol type (family) in the kernel header file include/linux/netlink.h, necessiating a kernel re-compilation before it can be used.</li>
+<li>The maximum number of netlink families is fixed to 32. If everyone registers its own protocol this number will be exhausted.</li>
+</ul>
+
+
+  </article>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+    
+
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+<div class="right-foot">
+    <div class="firstrow">
+        <a href="#top" target="_self">
+        <svg class="i-caret-right" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M10 30 L26 16 10 2 Z"></path>
+        </svg>
+        </a>
+        
+    </div>
+    <div class="secondrow">
+        <a target="_blank" rel="noopener" href="https://github.com/Abracax">
+        Abracax
+        </a>
+    </div>
+</div>
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/blog/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/blog/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>
