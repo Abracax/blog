@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Abracax&#39;s Notes</title>
+  <title>Abracax&#39;s Blog</title>
   
-  
+  <subtitle>Abracax&#39;s Blog</subtitle>
   <link href="https://anxue.xyz/blog/atom.xml" rel="self"/>
   
   <link href="https://anxue.xyz/blog/"/>
@@ -10,7 +10,7 @@
   <id>https://anxue.xyz/blog/</id>
   
   <author>
-    <name>Abracat</name>
+    <name>Abracax</name>
     
   </author>
   
