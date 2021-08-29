@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  <meta name="referrer" content="unsafe-url">
+  
+  <title>Networks Interview Prep</title>
+  <meta name="author" content="Abracat">
+  <meta name="description" content="Format of each TCP segment 
+
+Sender-to-receiver information: 
+Index of the first byte in the segment (sequence no.) 
+SYN bit: is this the beginning of">
+  
+  
+  <meta property="og:title" content="Networks Interview Prep"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="Abracax&#39;s Notes"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/blog/atom.xml" title="Abracax&#39;s Notes" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/blog/favicon.ico">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="main-ctnr">
+      <div class="behind">
+  <a href="/blog/" class="back black-color">
+    <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+        <path d="M2 30 L30 2 M30 30 L2 2"></path>
+    </svg>
+  </a>
+  
+</div>
+
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        Networks Interview Prep
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      <time datetime="2021-08-29T15:21:33.000Z" itemprop="datePublished">
+  <svg class="i-calendar" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2021-08-29
+</time>
+
+
+
+
+
+
+    </div>
+    <hr>
+    
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Packet-processing-by-an-Ethernet-Switch"><span class="toc-text">Packet processing by an Ethernet Switch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Lookup-Address-Ethernet"><span class="toc-text">Lookup Address: Ethernet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Packet-processing-by-an-Internet-Router"><span class="toc-text">Packet processing by an Internet Router</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Lookup-Address-IPv4"><span class="toc-text">Lookup Address: IPv4</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Congestion-Control-amp-Flow-Control"><span class="toc-text">Congestion Control &amp; Flow Control</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Congestion-Control"><span class="toc-text">Congestion Control</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-Tahoe"><span class="toc-text">TCP Tahoe</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-Reno"><span class="toc-text">TCP Reno</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSS"><span class="toc-text">MSS</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fast-retransmit"><span class="toc-text">Fast retransmit</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Duplicate-ack"><span class="toc-text">Duplicate ack</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sliding-window"><span class="toc-text">Sliding window</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-3-way-Handshake"><span class="toc-text">TCP 3-way Handshake</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-Connection-Termination"><span class="toc-text">TCP Connection Termination</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CLOSE-WAIT"><span class="toc-text">CLOSE_WAIT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TIME-WAIT"><span class="toc-text">TIME_WAIT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RST"><span class="toc-text">RST</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Epoll-and-Select-Poll"><span class="toc-text">Epoll and Select&#x2F;Poll</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Poll-and-Select-differ-in-FD-amount"><span class="toc-text">Poll and Select differ in FD amount</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Applications"><span class="toc-text">Applications</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RedBlack-Tree"><span class="toc-text">RedBlack Tree</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Rules-That-Every-Red-Black-Tree-Follows"><span class="toc-text">Rules That Every Red-Black Tree Follows:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSI-7-layers"><span class="toc-text">OSI 7 layers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Skicky-Packets"><span class="toc-text">Skicky Packets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-state"><span class="toc-text">HTTP state</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS"><span class="toc-text">HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Websocket-and-HTTP"><span class="toc-text">Websocket and HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-GET-and-POST"><span class="toc-text">HTTP GET and POST</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS"><span class="toc-text">DNS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP"><span class="toc-text">IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPV4-and-IPV6"><span class="toc-text">IPV4 and IPV6</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Subnet-Mask"><span class="toc-text">Subnet Mask</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP3-0-HTTP-over-QUIC"><span class="toc-text">HTTP3.0 (HTTP-over-QUIC)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forward-and-Redirect"><span class="toc-text">Forward and Redirect</span></a>
+    
+    <div class="picture-container">
+      
+    </div>
+    <p>Format of each TCP segment </p>
+<ul>
+<li>Sender-to-receiver information: <ul>
+<li>Index of the first byte in the segment (sequence no.) </li>
+<li>SYN bit: is this the beginning of the stream?</li>
+<li>Contents of segment</li>
+<li>FIN bit: is this the end of the stream? </li>
+</ul>
+</li>
+<li>Receiver-to-sender information: <ul>
+<li> Index of the next byte needed to assemble (ack no.) </li>
+<li> No. of bytes beyond this willing to accept (window size)</li>
+</ul>
+</li>
+</ul>
+<h4 id="Packet-processing-by-an-Ethernet-Switch"><a href="#Packet-processing-by-an-Ethernet-Switch" class="headerlink" title="Packet processing by an Ethernet Switch"></a>Packet processing by an Ethernet Switch</h4><ol>
+<li>Examine the header of each arriving frame. </li>
+<li>If the Ethernet DA is in the forwarding table, forward the frame to the correct output port(s).</li>
+<li>If the Ethernet DA is not in the table, broadcast the frame to all ports (except the one through which the frame arrived)</li>
+<li>Entries in the table are learned by examining the Ethernet SA of arriving packets.</li>
+</ol>
+<h4 id="Lookup-Address-Ethernet"><a href="#Lookup-Address-Ethernet" class="headerlink" title="Lookup Address: Ethernet"></a>Lookup Address: Ethernet</h4><p>Ethernet MAC_DA = 0xA8B72340E678 Forward to port 7</p>
+<p>DA all ones means Broadcast.</p>
+<h4 id="Packet-processing-by-an-Internet-Router"><a href="#Packet-processing-by-an-Internet-Router" class="headerlink" title="Packet processing by an Internet Router"></a>Packet processing by an Internet Router</h4><ol>
+<li>If the Ethernet DA of the arriving frame belongs to the router, accept the frame. Else drop it. </li>
+<li>Examine the IP version number and length of the datagram. </li>
+<li>Decrement the TTL, update the IP header checksum</li>
+<li>Check to see if TTL == 0. </li>
+<li>If the IP DA is in the forwarding table, forward to the correct egress port(s) for the next hop. </li>
+<li>Find the Ethernet DA for the next hop router. </li>
+<li>Create a new Ethernet frame and send it.</li>
+</ol>
+<h4 id="Lookup-Address-IPv4"><a href="#Lookup-Address-IPv4" class="headerlink" title="Lookup Address: IPv4"></a>Lookup Address: IPv4</h4><p>IP DA = 127.43.57.99 Forward to 56.99.32.16</p>
+<p>Eth DA = Y AND IP DA = Z Drop packet</p>
+<p><strong>Lookup is a longest prefix match, not an exact match!</strong></p>
+<p><strong>Trie tree</strong></p>
+<h2 id="Congestion-Control-amp-Flow-Control"><a href="#Congestion-Control-amp-Flow-Control" class="headerlink" title="Congestion Control &amp; Flow Control"></a>Congestion Control &amp; Flow Control</h2><p>Flow-control : sender respects receiver’s capacity</p>
+<ul>
+<li>receiver’s window (advertised from receiver), the spare room in the receive buffer </li>
+<li>“congestion window” cwnd (maintained by sender) </li>
+<li>The congestion window caps # of bytes in flight, same as receiver window. </li>
+<li>When one more byte is acked (or judged lost), one more byte can be sent. This is called “self-clocking.”</li>
+</ul>
+<h3 id="Congestion-Control"><a href="#Congestion-Control" class="headerlink" title="Congestion Control"></a>Congestion Control</h3><p>TCP uses a mechanism called <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/TCP_congestion_control#Slow_start">slow start</a>. It starts with a window, 1,4,2,10 (MSS) in size. Although the initial rate is low, the rate of increase is very rapid; for every packet acknowledged, the congestion window increases by 1 MSS so that the congestion window effectively doubles for every <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Round-trip_delay_time">round-trip time</a> (RTT).</p>
+<p>When the congestion window exceeds the slow-start threshold, <em>ssthresh</em>, the algorithm enters a new state, called congestion avoidance. In congestion avoidance state, as long as non-duplicate ACKs are received the congestion window is additively increased by one MSS every round-trip time, <em>each new ACK</em> increases the CWND by <em>MSS / CWND.</em> This results in a linear increase of the CWND. This corresponds to the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/TCP_congestion_control#Additive_increase/multiplicative_decrease">AIMD algorithm described below</a>.</p>
+<h4 id="TCP-Tahoe"><a href="#TCP-Tahoe" class="headerlink" title="TCP Tahoe"></a>TCP Tahoe</h4><p>When a loss occurs, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/TCP_congestion_control#Fast_retransmit">fast retransmit</a> is sent, half of the current CWND is saved as <em>ssthresh</em> and slow start begins again from its initial CWND. Once the CWND reaches <em>ssthresh</em>, TCP changes to congestion avoidance algorithm where <em>each new ACK</em> increases the CWND by <em>MSS / CWND.</em> This results in a linear increase of the CWND.</p>
+<h4 id="TCP-Reno"><a href="#TCP-Reno" class="headerlink" title="TCP Reno"></a>TCP Reno</h4><p>A fast retransmit is sent, half of the current CWND is saved as <em>ssthresh</em> and as new CWND, thus skipping slow start and going directly to the congestion avoidance algorithm. The overall algorithm here is called fast recovery.</p>
+<h4 id="MSS"><a href="#MSS" class="headerlink" title="MSS"></a>MSS</h4><p>The <strong>maximum segment size</strong> (<strong>MSS</strong>) is a parameter of the <em>options</em> field of the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol">TCP</a> header that specifies the largest amount of data, specified in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bytes">bytes</a>, that a computer or communications device can receive in a single <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol#TCP_segment_structure">TCP segment</a>. It does not count the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol#TCP_segment_structure">TCP header</a> or the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/IP_header">IP header</a>.</p>
+<h3 id="Fast-retransmit"><a href="#Fast-retransmit" class="headerlink" title="Fast retransmit"></a>Fast retransmit</h3><p><strong>Fast retransmit</strong> is an enhancement to <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol">TCP</a> that reduces the time a sender waits before retransmitting a lost segment. If an acknowledgement is not received for a particular segment within a specified time (a function of the estimated <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Round-trip_delay_time">round-trip delay time</a>), the sender will assume the segment was lost in the network, and will retransmit the segment.</p>
+<p>When a sender receives <strong>three duplicate</strong> acknowledgements, it can be reasonably confident that the segment carrying the data that followed the last in-order byte specified in the acknowledgment was lost. A sender with fast retransmit will then retransmit this packet immediately without waiting for its timeout. </p>
+<h4 id="Duplicate-ack"><a href="#Duplicate-ack" class="headerlink" title="Duplicate ack"></a>Duplicate ack</h4><p>Duplicate acknowledgement is the basis for the fast retransmit mechanism. After receiving a packet an <strong>acknowledgement is sent for the last in-order byte of data received.</strong> For an in-order packet, this is effectively the <strong>last packet’s sequence number</strong> plus the current packet’s payload length. If the next packet in the sequence is lost but a third packet in the sequence is received, then the receiver can only acknowledge the last in-order byte of data, which is the same value as was acknowledged for the first packet. The second packet is lost and the third packet is not in order, so the last in-order byte of data remains the same as before. Thus a <em>Duplicate acknowledgement</em> occurs. The sender continues to send packets, and a fourth and fifth packet are received by the receiver. Again, the second packet is missing from the sequence, so the last in-order byte has not changed. Duplicate acknowledgements are sent for both of these packets.</p>
+<h3 id="Sliding-window"><a href="#Sliding-window" class="headerlink" title="Sliding window"></a>Sliding window</h3><p>When the sender has to send some data, then it chooses the minimum of the size of the send buffer, congestion window and the receiver’s window and sends only that much data. The amount of data that can be sent represents the sliding window. Basically, the sliding window represents the amount of outstanding data that the sender has. If any of the windows (congestion or flow-control) opens up, then the window is stretched on the right.</p>
+<h3 id="TCP-3-way-Handshake"><a href="#TCP-3-way-Handshake" class="headerlink" title="TCP 3-way Handshake"></a>TCP 3-way Handshake</h3><p><img src="https://media.geeksforgeeks.org/wp-content/uploads/TCP-connection-1.png" alt="img"></p>
+<p> <strong>Step 1 (SYN) :</strong> SYN(Synchronize Sequence Number)</p>
+<p><strong>Step 2 (SYN + ACK):</strong> Server responds to the client request with SYN-ACK signal bits set. Acknowledgement(ACK) signifies the response of segment it received and SYN signifies with what sequence number it is likely to start the segments with</p>
+<p><strong>Step 3 (ACK) :</strong> In the final part client acknowledges the response of server and they both establish a reliable connection with which they will start the actual data transfer</p>
+<h2 id="TCP-Connection-Termination"><a href="#TCP-Connection-Termination" class="headerlink" title="TCP Connection Termination"></a>TCP Connection Termination</h2><p><img src="https://media.geeksforgeeks.org/wp-content/uploads/CN.png" alt="11"></p>
+<p><img src="http://www.serverframework.com/asynchronousevents/assets_c/2011/01/TCP-StateTransitionDiagram-NormalTransitions-thumb-500x749-271.png" alt="TCP-StateTransitionDiagram-NormalTransitions.png"></p>
+<h3 id="CLOSE-WAIT"><a href="#CLOSE-WAIT" class="headerlink" title="CLOSE_WAIT"></a>CLOSE_WAIT</h3><p> Indicates that the receiver has received the first FIN signal from the initiator and the connection is in the process of being closed. This means the socket is waiting for the application to execute <code>close()</code>. A socket can be in CLOSE_WAIT state indefinitely until the application closes it. Faulty scenarios would be like a file descriptor leak: server not executing <code>close()</code> on sockets leading to pile up of CLOSE_WAIT sockets.</p>
+<h3 id="TIME-WAIT"><a href="#TIME-WAIT" class="headerlink" title="TIME_WAIT"></a>TIME_WAIT</h3><p><strong>TIME_WAIT</strong> indicates that local endpoint (this side) has closed the connection. <code>TIME_WAIT</code> is often also known as the 2MSL wait state. The MSL(<em>Maximum Segment Lifetime</em>) is the maximum amount of time that any segment, for all intents and purposes a datagram that forms part of the TCP protocol, can remain valid on the network before being discarded. Sometimes it can be 4 minutes, thus problematic. </p>
+<ul>
+<li>To prevent delayed segments from one connection being misinterpreted as being part of a subsequent connection. </li>
+<li>The second reason for the <code>TIME_WAIT</code> state is to implement TCP’s full-duplex connection termination reliably. If the final <code>ACK</code> from initiator is dropped then the receiver will resend the final <code>FIN</code>. If the connection had transitioned to <code>CLOSED</code> on initiator then the only response possible would be to send an <code>RST</code> as the retransmitted <code>FIN</code> would be unexpected. This would cause end point 1 to receive an error even though all data was transmitted correctly.</li>
+</ul>
+<p><strong>How to avoid the 2MSL wait?</strong></p>
+<ul>
+<li>You can instead attempt to work around <code>TIME_WAIT</code> at the socket level with the <code>SO_REUSEADDR</code> socket option. This allows a socket to be created whilst an existing socket with the same address and port already exists. There’s another way to terminate a TCP connection and that’s by aborting the connection and sending an <code>RST</code> rather than a <code>FIN</code>. This is usually achieved by setting the <code>SO_LINGER</code> socket option to 0. </li>
+</ul>
+<h3 id="RST"><a href="#RST" class="headerlink" title="RST"></a>RST</h3><p><strong>Abrupt connection release :</strong><br>An abrupt connection release is carried out when a RST segment is sent.</p>
+<ol>
+<li>When a non-SYN segment was received for a non-existing TCP connection.</li>
+<li>In an open connection, some TCP implementations send a RST segment when a segment with an invalid header is received. This will prevent attacks by closing the corresponding connection.</li>
+<li>When some implementations need to close an existing TCP connection, they send a RST segment. They will close an existing TCP connection for the following reasons:<ul>
+<li>Lack of resources to support the connection</li>
+<li>The remote host is now unreachable and has stopped responding.</li>
+</ul>
+</li>
+</ol>
+<h2 id="Epoll-and-Select-Poll"><a href="#Epoll-and-Select-Poll" class="headerlink" title="Epoll and Select/Poll"></a>Epoll and Select/Poll</h2><p>A typical server might be dealing with, say, 200 connections.</p>
+<p>For epoll, each connection on the server would register themselves on the <code>epoll</code> socket wait queue. So 1 wait queue busy. </p>
+<p>However, in select each connection will be registered in a different wait queue, depending on the resource they require. So 200 wait queues busy. </p>
+<p><strong>Ironically, with <code>select</code>, the largest cost comes from checking if sockets that have had no activity have had any activity.</strong> With <code>epoll</code>, there is no need to check sockets that have had no activity because if they did have activity, they would have informed the <code>epoll</code> socket when that activity happened.</p>
+<p>Another main difference between <code>epoll</code> and <code>select</code> is that in <code>select()</code> the list of file descriptors to wait on only exists for the duration of a single <code>select()</code> call, and the calling task only stays on the sockets’ wait queues for the duration of a single call.</p>
+<h5 id="Poll-and-Select-differ-in-FD-amount"><a href="#Poll-and-Select-differ-in-FD-amount" class="headerlink" title="Poll and Select differ in FD amount"></a>Poll and Select differ in FD amount</h5><h3 id="Applications"><a href="#Applications" class="headerlink" title="Applications"></a>Applications</h3><p>Gnet, Node.js, libuev, libevent</p>
+<p>And many other light weight event loop libraries.</p>
+<h3 id="RedBlack-Tree"><a href="#RedBlack-Tree" class="headerlink" title="RedBlack Tree"></a>RedBlack Tree</h3><p><img src="https://media.geeksforgeeks.org/wp-content/uploads/20200427100650/red-black-tree.png" alt="img"></p>
+<h4 id="Rules-That-Every-Red-Black-Tree-Follows"><a href="#Rules-That-Every-Red-Black-Tree-Follows" class="headerlink" title="Rules That Every Red-Black Tree Follows:"></a><strong>Rules That Every Red-Black Tree Follows:</strong></h4><ol>
+<li>Every node has a colour either red or black.</li>
+<li>The root of the tree is always black.</li>
+<li>There are no two adjacent red nodes (A red node cannot have a red parent or red child).</li>
+<li>Every path from a node (including root) to any of its descendants NULL nodes has the same number of black nodes.</li>
+</ol>
+<h2 id="OSI-7-layers"><a href="#OSI-7-layers" class="headerlink" title="OSI 7 layers"></a>OSI 7 layers</h2><p><img src="https://www.imperva.com/learn/wp-content/uploads/sites/13/2020/02/OSI-7-layers.jpg.webp" alt="OSI 7 layers"></p>
+<p>OSI: Open Systems Interconnection</p>
+<p>TCP/IP are used a lot more than OSI/RM now, it combines the upper 3 layers. </p>
+<h2 id="Skicky-Packets"><a href="#Skicky-Packets" class="headerlink" title="Skicky Packets"></a>Skicky Packets</h2><ul>
+<li><p>Sending : TCP protocol uses the Nagle algorithm by default to merge the connected small packets and send them one at a time to improve the efficiency of network transmission. </p>
+<ul>
+<li><code>setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, &amp;chOpt, sizeof(char));</code> to disable.</li>
+</ul>
+</li>
+<li><p>Receiving: The speed at which the network transmits data may be faster than the speed at which the receiver processes the data, causing the receiver to have multiple packets in the buffer when it reads the buffer. In the TCP protocol, the receiver is reading all the contents of the buffer at once, so it cannot reflect the original data information.</p>
+</li>
+</ul>
+<p>A simple solution is to add a header to each TCP packet at the sender.</p>
+<h2 id="HTTP-state"><a href="#HTTP-state" class="headerlink" title="HTTP state"></a>HTTP state</h2><p>Add tokens to HTTP requests to protect against CSRF attacks.</p>
+<table>
+<thead>
+<tr>
+<th>1**</th>
+<th>信息，服务器收到请求，需要请求者继续执行操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2**</td>
+<td>成功，操作被成功接收并处理</td>
+</tr>
+<tr>
+<td>3**</td>
+<td>重定向，需要进一步的操作以完成请求</td>
+</tr>
+<tr>
+<td>4**</td>
+<td>客户端错误，请求包含语法错误或无法完成请求</td>
+</tr>
+<tr>
+<td>5**</td>
+<td>服务器错误，服务器在处理请求的过程中发生了错误</td>
+</tr>
+</tbody></table>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p><strong>HTTPS</strong> 在内容传输的<strong>加密</strong>上<strong>使用</strong>的是<strong>对称加密</strong>，非<strong>对称加密</strong>只作用在证书验证阶段.</p>
+<p>HTTPS is as a wrapper on top of TLS using SSL certificate.</p>
+<p><img src="https://images.ctfassets.net/slt3lc6tev37/5aYOr5erfyNBq20X5djTco/3c859532c91f25d961b2884bf521c1eb/tls-ssl-handshake.png" alt="What happens in a TLS handshake? | SSL handshake | Cloudflare"></p>
+<p><img src="https://perezbox.com/wp-content/uploads/2018/10/Screen-Shot-2018-10-28-at-9.57.00-AM-1140x832.png" alt="img"></p>
+<h2 id="Websocket-and-HTTP"><a href="#Websocket-and-HTTP" class="headerlink" title="Websocket and HTTP"></a>Websocket and HTTP</h2><p>Both based on tcp and application level.</p>
+<p>Websocket is a 2-way protocol.</p>
+<h3 id="HTTP-GET-and-POST"><a href="#HTTP-GET-and-POST" class="headerlink" title="HTTP GET and POST"></a>HTTP GET and POST</h3><ul>
+<li>For GET parameters are all encoded in URL, thus only ASCII. POST is in request body.</li>
+<li>GET parameters are cached in browser history, doesn’t harm to repeat request a GET.</li>
+</ul>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><ol>
+<li><p>Browser Cache</p>
+</li>
+<li><p>Local hosts file</p>
+</li>
+<li><p>local DNS server cache</p>
+</li>
+<li><p>DNS server</p>
+</li>
+<li><p>Recursive request DNS</p>
+<p>当<strong>DNS</strong>查询超过512字节时，<strong>协议</strong>的TC标志出现删除标志，这时则<strong>使用TCP</strong>发送。</p>
+</li>
+</ol>
+<h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><p>IP Adress = {<code>net_id</code>, <code>host_id</code>}</p>
+<h2 id="IPV4-and-IPV6"><a href="#IPV4-and-IPV6" class="headerlink" title="IPV4 and IPV6"></a>IPV4 and IPV6</h2><ul>
+<li>IPv4 is 32-Bit IP address whereas IPv6 is a 128-Bit IP address.</li>
+<li>IPv4 is a numeric addressing method whereas IPv6 is an alphanumeric addressing method.</li>
+<li>IPv4 offers 12 header fields whereas IPv6 offers 8 header fields.</li>
+<li><strong>IPv4 supports broadcast whereas IPv6 doesn’t support broadcast.</strong></li>
+<li>IPv4 has checksum fields while <strong>IPv6 doesn’t have checksum fields</strong></li>
+<li>When we compare IPv4 and IPv6, IPv4 supports VLSM (<strong>Variable Length Subnet Mask</strong>) whereas IPv6 doesn’t support VLSM.</li>
+<li><strong>IPv4 uses ARP (Address Resolution Protocol) to map to MAC address whereas IPv6 uses NDP (Neighbour Discovery Protocol) to map to MAC address.</strong></li>
+</ul>
+<h3 id="Subnet-Mask"><a href="#Subnet-Mask" class="headerlink" title="Subnet Mask"></a>Subnet Mask</h3><h2 id="HTTP3-0-HTTP-over-QUIC"><a href="#HTTP3-0-HTTP-over-QUIC" class="headerlink" title="HTTP3.0 (HTTP-over-QUIC)"></a><strong>HTTP3.0</strong> (HTTP-over-QUIC)</h2><p><strong>HTTP/2-encrypted-over-UDP</strong></p>
+<p>0-RTT handshake.</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/52d86558ca57">https://www.jianshu.com/p/52d86558ca57</a></p>
+<h2 id="Forward-and-Redirect"><a href="#Forward-and-Redirect" class="headerlink" title="Forward and Redirect"></a>Forward and Redirect</h2><p><img src="/blog/Users/chenanxue/Work/Industry/notes/2639681048-5e51e65aac2b2_articlex.png" alt="img"></p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/How-HTTPS-Works.png" alt="img"></p>
+
+
+  </article>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+    
+
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+<div class="right-foot">
+    <div class="firstrow">
+        <a href="#top" target="_self">
+        <svg class="i-caret-right" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M10 30 L26 16 10 2 Z"></path>
+        </svg>
+        </a>
+        
+    </div>
+    <div class="secondrow">
+        <a target="_blank" rel="noopener" href="https://github.com/Abracax">
+        Abracax
+        </a>
+    </div>
+</div>
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/blog/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/blog/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>

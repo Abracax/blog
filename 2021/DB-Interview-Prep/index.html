@@ -1,0 +1,307 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  <meta name="referrer" content="unsafe-url">
+  
+  <title>DataBase Systems Interview Prep</title>
+  <meta name="author" content="Abracat">
+  <meta name="description" content="Clustered index and non-clustered index
+A clustered index defines the order in which data is physically stored in a table. In SQL Server, the primary ">
+  
+  
+  <meta property="og:title" content="DataBase Systems Interview Prep"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="Abracax&#39;s Notes"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/blog/atom.xml" title="Abracax&#39;s Notes" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/blog/favicon.ico">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="main-ctnr">
+      <div class="behind">
+  <a href="/blog/" class="back black-color">
+    <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+        <path d="M2 30 L30 2 M30 30 L2 2"></path>
+    </svg>
+  </a>
+  
+</div>
+
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        DataBase Systems Interview Prep
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      <time datetime="2021-08-29T15:17:54.000Z" itemprop="datePublished">
+  <svg class="i-calendar" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2021-08-29
+</time>
+
+
+
+
+
+
+    </div>
+    <hr>
+    
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Clustered-index-and-non-clustered-index"><span class="toc-text">Clustered index and non-clustered index</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-B-Tree"><span class="toc-text">Why B+ Tree</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MyISAM-and-InnoDB"><span class="toc-text">MyISAM and InnoDB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB"><span class="toc-text">InnoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#How-to-Search"><span class="toc-text">How to Search?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Clustered-index-and-Secondary-index-in-InnoDB"><span class="toc-text">Clustered index and Secondary index in InnoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Searching-Twice-%E5%9B%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2"><span class="toc-text">Searching Twice 回表查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E8%A6%86%E7%9B%96-Covering-index"><span class="toc-text">索引覆盖(Covering index)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Combined-index-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E4%B8%8E%E6%9C%80%E5%B7%A6%E5%8E%9F%E5%88%99"><span class="toc-text">Combined index 联合索引与最左原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACID-atomicity-consistency-isolation-durability"><span class="toc-text">ACID (atomicity, consistency, isolation, durability)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Atomicity"><span class="toc-text">Atomicity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Consistency"><span class="toc-text">Consistency</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Isolation"><span class="toc-text">Isolation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Durability"><span class="toc-text">Durability</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transaction-Isolation-Levels"><span class="toc-text">Transaction Isolation Levels</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#A-transaction-isolation-level-is-defined-by-the-following-phenomena"><span class="toc-text">A transaction isolation level is defined by the following phenomena:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1NF-2NF-3NF-and-BCNF"><span class="toc-text">1NF, 2NF, 3NF and BCNF</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Normal-Forms"><span class="toc-text">Normal Forms</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1NF"><span class="toc-text">1NF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2NF"><span class="toc-text">2NF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3NF"><span class="toc-text">3NF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BCNF"><span class="toc-text">BCNF</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Join"><span class="toc-text">Join</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PreparedStatement"><span class="toc-text">PreparedStatement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MVCC-Multi-Version-Concurrency-Control"><span class="toc-text">MVCC(Multi-Version Concurrency Control)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Next-key-lock"><span class="toc-text">Next-key lock</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redo-log-undo-log-and-binlog"><span class="toc-text">Redo log, undo log and binlog</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redo-log"><span class="toc-text">Redo log</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#WAL"><span class="toc-text">WAL.</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Flushing"><span class="toc-text">Flushing</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undo-log"><span class="toc-text">undo log</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#binlog"><span class="toc-text">binlog</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Distributed-Transactions"><span class="toc-text">Distributed Transactions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Two-phase-commit-voting"><span class="toc-text">Two-phase commit (voting)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Prepare-phase"><span class="toc-text">Prepare phase</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Commit-phase"><span class="toc-text">Commit phase</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NVM"><span class="toc-text">NVM</span></a></li></ol>
+    
+    <div class="picture-container">
+      
+    </div>
+    <h2 id="Clustered-index-and-non-clustered-index"><a href="#Clustered-index-and-non-clustered-index" class="headerlink" title="Clustered index and non-clustered index"></a>Clustered index and non-clustered index</h2><ul>
+<li><p>A clustered index defines the order in which data is physically stored in a table. In SQL Server, the primary key constraint automatically creates a clustered index on that particular column.</p>
+</li>
+<li><p>A non-clustered index doesn’t sort the physical data inside the table. In fact, a non-clustered index is stored at one place and table data is stored in another place.</p>
+</li>
+</ul>
+<h2 id="Why-B-Tree"><a href="#Why-B-Tree" class="headerlink" title="Why B+ Tree"></a>Why B+ Tree</h2><ul>
+<li>Because B+ trees don’t have data associated with interior nodes, more keys can fit on a page of memory. Disk IO is slow and disk read blocks into buffers. B+tree places storage together, it will require fewer cache misses in order to access data that is on a leaf node.</li>
+<li>The leaf nodes of B+ trees are linked, so doing a full scan of all objects in a tree requires just one linear pass through all the leaf nodes. </li>
+</ul>
+<h2 id="MyISAM-and-InnoDB"><a href="#MyISAM-and-InnoDB" class="headerlink" title="MyISAM and InnoDB"></a>MyISAM and InnoDB</h2><p>So to summarize (<em>TL;DR</em>):</p>
+<ul>
+<li>InnoDB has row-level locking, MyISAM can only do full table-level locking, does not have transactions.</li>
+<li>MyISAM has better performance in <code>select</code> InnoDB is better at <strong>INSERT</strong> or <strong>UPDATE</strong>.</li>
+<li>InnoDB does not support <code>FULLTEXT</code>.</li>
+<li>InnoDB has foreign key.</li>
+<li>InnoDB implements transactions, foreign keys and relationship constraints, MyISAM does not.</li>
+<li>MyISAM uses non-clustered indexes, seperating index pages and data pages.</li>
+</ul>
+<h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a><strong>InnoDB</strong></h2><ul>
+<li>InnoDB uses LRU (Least Recently Used ) page replacement algorithm.</li>
+<li>Data that is being reused is always in the same memory.</li>
+</ul>
+<p><img src="https://lalitvc.files.wordpress.com/2016/11/innodb_arch1.png?w=776" alt="innodb_arch"></p>
+<p>The pages in the buffer pool are B+ tree nodes of size 16KB, each nodes contain at least 2 rows, thus max row rize is <strong>8098</strong>.</p>
+<p>Each page contains:</p>
+<blockquote>
+<p>File Header</p>
+<p>Page Header</p>
+<p>Infimun + Supremum Records</p>
+<p>User Records</p>
+<p>Free Space</p>
+<p>Page Directory</p>
+<p>File Trailer</p>
+</blockquote>
+<ul>
+<li><p>Infimum is values smaller than any primary key in the page，Supremum is larger then any primary key.</p>
+</li>
+<li><p>Perform binary search on <code>Page Directory</code> which maps records to slots. Each slot has 4-8 records. </p>
+</li>
+</ul>
+<h3 id="How-to-Search"><a href="#How-to-Search" class="headerlink" title="How to Search?"></a>How to Search?</h3><p>Use B+ tree to find page, fetch it from disk to buffer pool, Perform binary search on <code>Page Directory</code> , then search in linked list.</p>
+<h3 id="Clustered-index-and-Secondary-index-in-InnoDB"><a href="#Clustered-index-and-Secondary-index-in-InnoDB" class="headerlink" title="Clustered index and Secondary index in InnoDB"></a>Clustered index and Secondary index in InnoDB</h3><ul>
+<li>Clustered index in InnoDB is the B+ tree primary keys in the table form, alll other data are in pages. These pages are both index pages and data pages. Each table only has 1 clustered index.</li>
+<li>Non-clustered index:  Primary keys form b+trees with pointers to pages where data is stored. The second key index column is a non-clustered index.</li>
+</ul>
+<h3 id="Searching-Twice-回表查询"><a href="#Searching-Twice-回表查询" class="headerlink" title="Searching Twice 回表查询"></a>Searching Twice <strong>回表查询</strong></h3><p><img src="https://img2018.cnblogs.com/blog/885859/201907/885859-20190729184911699-676257427.png" alt="img"></p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t <span class="token keyword">where</span> name <span class="token operator">=</span> <span class="token string">'list'</span><span class="token punctuation">;</span>　<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="索引覆盖-Covering-index"><a href="#索引覆盖-Covering-index" class="headerlink" title="索引覆盖(Covering index)"></a><strong>索引覆盖</strong>(Covering index)</h2><p>被查询的字段建立到联合索引里去, 无需回表查询。</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">select</span> id<span class="token punctuation">,</span>name <span class="token keyword">from</span> t <span class="token keyword">where</span> name <span class="token operator">=</span> <span class="token string">'list'</span><span class="token punctuation">;</span>　<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="Combined-index-联合索引与最左原则"><a href="#Combined-index-联合索引与最左原则" class="headerlink" title="Combined index 联合索引与最左原则"></a>Combined index 联合索引与最左原则</h2><p>对于复合索引：Mysql从左到右的使用索引中的字段，一个查询可以只使用索引中的一部份，但只能是最左侧部分。</p>
+<p>例如索引是 key index （a,b,c）。 可以支持 <code>a</code> 、<code>a,b</code> 、<code>a,b,c</code> 3种组合进行查找，但不支持 b,c 进行查找。</p>
+<p><img src="http://www.2cto.com/uploadfile/Collfiles/20180217/20180217145611186.png" alt="多列索引数据结构"></p>
+<h2 id="ACID-atomicity-consistency-isolation-durability"><a href="#ACID-atomicity-consistency-isolation-durability" class="headerlink" title="ACID (atomicity, consistency, isolation, durability)"></a><em>ACID</em> (atomicity, consistency, isolation, durability)</h2><h3 id="Atomicity"><a href="#Atomicity" class="headerlink" title="Atomicity"></a>Atomicity</h3><p>Atomicity means that you guarantee that either all of the transaction succeeds or none of it does. You don’t get part of it succeeding and part of it not. </p>
+<h3 id="Consistency"><a href="#Consistency" class="headerlink" title="Consistency"></a>Consistency</h3><p>This ensures that you guarantee that all data will be consistent. </p>
+<h3 id="Isolation"><a href="#Isolation" class="headerlink" title="Isolation"></a>Isolation</h3><p>Guarantees that all transactions will occur in isolation. No transaction will be affected by any other transaction.</p>
+<h3 id="Durability"><a href="#Durability" class="headerlink" title="Durability"></a>Durability</h3><p>Durability means that, once a transaction is committed, it will remain in the system – even if there’s a system crash immediately following the transaction. Any changes from the transaction must be stored permanently. </p>
+<h2 id="Transaction-Isolation-Levels"><a href="#Transaction-Isolation-Levels" class="headerlink" title="Transaction Isolation Levels"></a>Transaction Isolation Levels</h2><ol>
+<li><strong>Read Uncommitted –</strong> Read Uncommitted is the lowest isolation level. In this level, one transaction may read not yet committed changes made by other transaction, thereby allowing dirty reads. In this level, transactions are not isolated from each other.</li>
+<li><strong>Read Committed –</strong> This isolation level guarantees that any data read is committed at the moment it is read. Thus it does not allows dirty read. The transaction holds a read or write lock on the current row, and thus prevent other transactions from reading, updating or deleting it.</li>
+<li><strong>Repeatable Read –</strong> This is the most restrictive isolation level. The transaction holds read locks on all rows it references and writes locks on all rows it inserts, updates, or deletes. Since other transaction cannot read, update or delete these rows, consequently it avoids non-repeatable read.</li>
+<li><strong>Serializable –</strong> This is the Highest isolation level. A <em>serializable</em> execution is guaranteed to be serializable. Serializable execution is defined to be an execution of operations in which concurrently executing transactions appears to be serially executing.</li>
+</ol>
+<h4 id="A-transaction-isolation-level-is-defined-by-the-following-phenomena"><a href="#A-transaction-isolation-level-is-defined-by-the-following-phenomena" class="headerlink" title="A transaction isolation level is defined by the following phenomena:"></a>A transaction isolation level is defined by the following phenomena:</h4><ul>
+<li><strong>Dirty Read (mvcc)–</strong> A Dirty read is the situation when a transaction reads a data that has not yet been committed. <ul>
+<li>For example, Let’s say transaction 1 updates a row and leaves it uncommitted, meanwhile, Transaction 2 reads the updated row. If transaction 1 rolls back the change, transaction 2 will have read data that is considered never to have existed.</li>
+</ul>
+</li>
+<li><strong>Non Repeatable read (mvcc) –</strong> Non Repeatable read occurs when a transaction reads same row twice, and get a different value each time. <ul>
+<li>For example, suppose transaction T1 reads data. Due to concurrency, another transaction T2 updates the same data and commit, Now if transaction T1 rereads the same data, it will retrieve a different value.</li>
+</ul>
+</li>
+<li><strong>Phantom Read(next-key lock) –</strong> Phantom Read occurs when two same queries are executed, all the rows in the query have the same value before and after, but the rows retrieved by the two, are different. <ul>
+<li>For example, suppose transaction T1 retrieves a set of rows that satisfy some search criteria. Now, Transaction T2 generates some new rows that match the search criteria for transaction T1. If transaction T1 re-executes the statement that reads the rows, it gets a different set of rows this time.</li>
+</ul>
+</li>
+</ul>
+<h2 id="1NF-2NF-3NF-and-BCNF"><a href="#1NF-2NF-3NF-and-BCNF" class="headerlink" title="1NF, 2NF, 3NF and BCNF"></a>1NF, 2NF, 3NF and BCNF</h2><h5 id="Normal-Forms"><a href="#Normal-Forms" class="headerlink" title="Normal Forms"></a>Normal Forms</h5><h3 id="1NF"><a href="#1NF" class="headerlink" title="1NF"></a>1NF</h3><p>Each attribute of a table must have atomic (single) values</p>
+<h3 id="2NF"><a href="#2NF" class="headerlink" title="2NF"></a>2NF</h3><p>No non-prime attribute is dependent on the proper subset of any candidate key of <strong>table</strong></p>
+<p>e.g. Age depends on ID.</p>
+<h3 id="3NF"><a href="#3NF" class="headerlink" title="3NF"></a>3NF</h3><p><a target="_blank" rel="noopener" href="https://beginnersbook.com/2015/04/transitive-dependency-in-dbms/">Transitive functional dependency</a> of non-prime attribute on any super key should be removed.</p>
+<h3 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h3><p><strong>Example</strong>: Suppose there is a company wherein employees work in <strong>more than one department</strong>. They store the data like this:</p>
+<table>
+<thead>
+<tr>
+<th>emp_id</th>
+<th>emp_nationality</th>
+<th>emp_dept</th>
+<th>dept_type</th>
+<th>dept_no_of_emp</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1001</td>
+<td>Austrian</td>
+<td>Production and planning</td>
+<td>D001</td>
+<td>200</td>
+</tr>
+<tr>
+<td>1001</td>
+<td>Austrian</td>
+<td>stores</td>
+<td>D001</td>
+<td>250</td>
+</tr>
+<tr>
+<td>1002</td>
+<td>American</td>
+<td>design and technical support</td>
+<td>D134</td>
+<td>100</td>
+</tr>
+<tr>
+<td>1002</td>
+<td>American</td>
+<td>Purchasing department</td>
+<td>D134</td>
+<td>600</td>
+</tr>
+</tbody></table>
+<p><strong>Functional dependencies in the table above</strong>:<br>emp_id -&gt; emp_nationality<br>emp_dept -&gt; {dept_type, dept_no_of_emp}</p>
+<p><strong>Candidate key</strong>: {emp_id, emp_dept}</p>
+<p>The table is not in BCNF as neither emp_id nor emp_dept alone are keys.</p>
+<h2 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h2><p><img src="https://www.codeproject.com/KB/database/Visual_SQL_Joins/Visual_SQL_JOINS_V2.png" alt="Image 8"></p>
+<h2 id="PreparedStatement"><a href="#PreparedStatement" class="headerlink" title="PreparedStatement"></a>PreparedStatement</h2><p>PreparedStatement compiles the SQL Statement in the first run itself. Thus, if the Statement is preparedStatement, you can run the Statement multiple times without having to compile it again and again. </p>
+<p>It can protect system against sql injection.</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users <span class="token keyword">WHERE</span> username <span class="token operator">=</span> <span class="token string">'administrator'</span><span class="token comment">--' AND password = '';</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> user_table <span class="token keyword">WHERE</span> username<span class="token operator">=</span><span class="token string">'’or 1 = 1 -- and password='</span>’
+<span class="token keyword">UNION</span> <span class="token keyword">SELECT</span> username<span class="token punctuation">,</span> password <span class="token keyword">FROM</span> users<span class="token comment">--;</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> products <span class="token keyword">WHERE</span> category <span class="token operator">=</span> <span class="token string">'"+ input + "'</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> information_schema<span class="token punctuation">.</span><span class="token keyword">tables</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="MVCC-Multi-Version-Concurrency-Control"><a href="#MVCC-Multi-Version-Concurrency-Control" class="headerlink" title="MVCC(Multi-Version Concurrency Control)"></a>MVCC(Multi-Version Concurrency Control)</h2><p> Optimistic locking mechanism.</p>
+<p>MVCC uses <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Timestamp">timestamps</a> (<strong>TS</strong>), and <em>incrementing transaction IDs</em>, to achieve <em>transactional consistency</em>. MVCC ensures a transaction (<strong>T</strong>) never has to wait to <em>Read</em> a database object (<strong>P</strong>) by maintaining several versions of the object. Each version of object <strong>P</strong> has both a <em>Read Timestamp</em> (<strong>RTS</strong>) and a <em>Write Timestamp</em> (<strong>WTS</strong>) which lets a particular transaction <strong>Ti</strong> read the most recent version of the object which precedes the transaction’s <em>Read Timestamp</em> <strong>RTS</strong>(<strong>Ti</strong>).</p>
+<p>The drawback to this system is the cost of storing multiple versions of objects in the database. On the other hand, reads are never blocked, which can be important for workloads mostly involving reading values from the database. MVCC is particularly adept at implementing true <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Snapshot_isolation">snapshot isolation</a>, something which other methods of concurrency control frequently do either incompletely or with high performance costs.</p>
+<h3 id="Next-key-lock"><a href="#Next-key-lock" class="headerlink" title="Next-key lock"></a>Next-key lock</h3><p>A next-key lock is <strong>a combination of a record lock on the index record and a gap lock on the gap before the index record</strong>.</p>
+<p>A gap lock is <strong>a lock on the gap between index records</strong>. Thanks to this gap lock, when you run the same query twice, you get the same result, regardless other session modifications on that table. This makes reads consistent and therefore makes the replication between servers consistent.</p>
+<h2 id="Redo-log-undo-log-and-binlog"><a href="#Redo-log-undo-log-and-binlog" class="headerlink" title="Redo log, undo log and binlog"></a>Redo log, undo log and binlog</h2><h3 id="Redo-log"><a href="#Redo-log" class="headerlink" title="Redo log"></a>Redo log</h3><h5 id="WAL"><a href="#WAL" class="headerlink" title="WAL."></a>WAL.</h5><p>Write redolog before modifying the page. Redo it if transaction fails. </p>
+<h4 id="Flushing"><a href="#Flushing" class="headerlink" title="Flushing"></a>Flushing</h4><ul>
+<li>Master Thread Refresh redo log buffer to redo log file every second</li>
+<li>The redo log buffer is flushed to the redo log file when each transaction is committed</li>
+<li>When the remaining space of redo log buffer pool is less than 1/2 when , Redo log is refreshed to redo log file</li>
+</ul>
+<h4 id="undo-log"><a href="#undo-log" class="headerlink" title="undo log"></a>undo log</h4><p>Provides rollback and multiple row versioning (MVCC).</p>
+<ul>
+<li>MVCC： When the user reads a row of records , If the record is already occupied by another transaction , The current transaction can be processed through undo Read previous line version information , In order to achieve non lock read .</li>
+</ul>
+<h4 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h4><p>The binary log contains “events” that describe database changes such as table creation operations or changes to table data. The binary log also contains information about how long each statement took that updated data. </p>
+<ol>
+<li>For replication, the binary log on a primary replication server provides a record of the data changes to be sent to secondary servers. The primary server sends the events contained in its binary log to its secondaries, which execute those events to make the same data changes that were made on the primary.</li>
+<li>Certain data recovery operations require the use of the binary log. After a backup has been restored, the events in the binary log that were recorded after the backup was made are re-executed. These events bring databases up to date from the point of the backup</li>
+</ol>
+<h2 id="Distributed-Transactions"><a href="#Distributed-Transactions" class="headerlink" title="Distributed Transactions"></a>Distributed Transactions</h2><p><a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.824/notes/l-2pc.txt">https://pdos.csail.mit.edu/6.824/notes/l-2pc.txt</a></p>
+<h2 id="Two-phase-commit-voting"><a href="#Two-phase-commit-voting" class="headerlink" title="Two-phase commit (voting)"></a>Two-phase commit (voting)</h2><h4 id="Prepare-phase"><a href="#Prepare-phase" class="headerlink" title="Prepare phase"></a>Prepare phase</h4><ol>
+<li>After each database store (slave) has locally completed its transaction, it sends a “<em>DONE</em>” message to the transaction coordinator. Once the coordinator receives this message from <em>all</em> the slaves, it sends them a “<em>PREPARE</em>” message.</li>
+<li>Each slave responds to the “<em>PREPARE</em>” message by sending a “<em>READY</em>” message back to the coordinator</li>
+<li>If a slave responds with a “<em>NOT READY</em>” message or does not respond at all, then the coordinator sends a global “<em>ABORT</em>” message to all the other slaves. Only upon receiving an acknowledgment from <em>all</em> the slaves that the transaction has been aborted does the coordinator consider the entire transaction aborted.</li>
+</ol>
+<h4 id="Commit-phase"><a href="#Commit-phase" class="headerlink" title="Commit phase"></a>Commit phase</h4><ol>
+<li>Once the transaction coordinator has received the “<em>READY</em>” message from <em>all</em> the slaves, it sends a “<em>COMMIT</em>” message to all of them, which contains the details of the transaction that needs to be stored in the databases.</li>
+<li>…. Same as before</li>
+</ol>
+<h2 id="NVM"><a href="#NVM" class="headerlink" title="NVM"></a>NVM</h2><p><a target="_blank" rel="noopener" href="https://nan01ab.github.io/2019/02/NVMM-of-DB.html">https://nan01ab.github.io/2019/02/NVMM-of-DB.html</a></p>
+
+
+  </article>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+    
+
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+<div class="right-foot">
+    <div class="firstrow">
+        <a href="#top" target="_self">
+        <svg class="i-caret-right" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M10 30 L26 16 10 2 Z"></path>
+        </svg>
+        </a>
+        
+    </div>
+    <div class="secondrow">
+        <a target="_blank" rel="noopener" href="https://github.com/Abracax">
+        Abracax
+        </a>
+    </div>
+</div>
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/blog/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/blog/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>
